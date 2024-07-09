@@ -15,40 +15,6 @@
     <script src="./lastgeom.js"></script>
     <script src="https://3Dmol.org/build/3Dmol-min.js"></script>     
     <script src="https://3Dmol.org/build/3Dmol.ui-min.js"></script>  
-    <script>
-      function set_defaults(){
-        var fwhh = document.getElementById("fwhh");
-        var my_spect = document.getElementById("my_spect");
-        console.log(my_spect.value);
-        switch (my_spect.value){
-          case "ir":
-            console.log("IR");
-            fwhh.value = 50;
-            break;
-          case "uvvis":
-            console.log("UV/Vis");
-            fwhh.value = 50;
-            break;
-          case "raman":
-            console.log("Raman");
-            fwhh.value = 10;
-            break;
-          default:
-            fwhh.value = "";
-            break;
-        }
-      }
-
-      function toggle_advanced(){
-        var advanced = document.getElementById('advanced')
-        if (advanced.style.display == 'none'){
-          advanced.style.display='block';
-        }
-        else {
-          advanced.style.display='none';
-        }
-      }
-    </script>   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <style type="text/css">
@@ -203,7 +169,38 @@ body {
 <div id="cont-3dtext" class="mol-container"></div>
 
 <script type="text/javascript">
+function set_defaults(){
+  var fwhh = document.getElementById("fwhh");
+  var my_spect = document.getElementById("my_spect");
+  console.log(my_spect.value);
+  switch (my_spect.value){
+    case "ir":
+      console.log("IR");
+      fwhh.value = 50;
+      break;
+    case "uvvis":
+      console.log("UV/Vis");
+      fwhh.value = 50;
+      break;
+    case "raman":
+      console.log("Raman");
+      fwhh.value = 10;
+      break;
+    default:
+      fwhh.value = "";
+      break;
+  }
+}
 
+function toggle_advanced(){
+  var advanced = document.getElementById('advanced')
+  if (advanced.style.display == 'none'){
+    advanced.style.display='block';
+  }
+  else {
+    advanced.style.display='none';
+  }
+}
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
