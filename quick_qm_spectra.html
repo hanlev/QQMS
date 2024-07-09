@@ -14,7 +14,41 @@
     <script src="./plotwrap.js"></script>
     <script src="./lastgeom.js"></script>
     <script src="https://3Dmol.org/build/3Dmol-min.js"></script>     
-    <script src="https://3Dmol.org/build/3Dmol.ui-min.js"></script>     
+    <script src="https://3Dmol.org/build/3Dmol.ui-min.js"></script>  
+    <script>
+      function set_defaults(){
+        var fwhh = document.getElementById("fwhh");
+        var my_spect = document.getElementById("my_spect");
+        console.log(my_spect.value);
+        switch (my_spect.value){
+          case "ir":
+            console.log("IR");
+            fwhh.value = 50;
+            break;
+          case "uvvis":
+            console.log("UV/Vis");
+            fwhh.value = 50;
+            break;
+          case "raman":
+            console.log("Raman");
+            fwhh.value = 10;
+            break;
+          default:
+            fwhh.value = "";
+            break;
+        }
+      }
+
+      function toggle_advanced(){
+        var advanced = document.getElementById('advanced')
+        if (advanced.style.display == 'none'){
+          advanced.style.display='block';
+        }
+        else {
+          advanced.style.display='none';
+        }
+      }
+    </script>   
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 <style type="text/css">
@@ -104,7 +138,7 @@ body {
 <br>
 <form>
 	<label for="my_spect">Please select the <b>Spectrum Type:</b></label>
-   <select id="my_spect" name="spectyp">
+   <select id="my_spect" name="spectyp" onchange="set_defaults()">
      <option value="none"></option>
      <option value="ir">IR</option>
      <option value="uvvis">UV/Vis</option>
@@ -117,7 +151,7 @@ body {
    you want to generate a new spectrum with different settings,
    you will need to click your browser's "refresh" button.</p>
 
- <button type="button" onclick="document.getElementById('advanced').style.display='block'">Advanced Settings</button>
+ <button type="button" onclick="toggle_advanced()">Advanced Settings</button>
 
 <div id="advanced" style="display:none">
 
@@ -145,7 +179,7 @@ body {
   <p>The default value is 1064 nm.</p>
 
   <form name="my_laserwl" >
-  	excitation wavelength:<input type="text" id="laserwl" name="laserwl"><br>
+  	excitation wavelength:<input type="text" id="laserwl" name="laserwl" value="1064"><br>
   </form>
 
 </div>
