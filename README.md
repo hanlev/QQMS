@@ -9,7 +9,7 @@ packages has been included in the Tests/BzOrig directory.
 When the main file is opened in a browser (while all .js files are also present in the same directory)
 the user will need to select (1) the electronic structure program (i.e., GAMESS, NWChem, etc.) and
 (2) the type of spectrum to parse and display (i.e., infrared, UV/Vis, etc.). If using the test files
-included in this directory then the following key explains the naming scheme:
+included in the Tests/BzOrig directory then the following key explains the naming scheme:
 
 - gms_... = GAMESS
 - nwc_... = NWChem
