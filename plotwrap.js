@@ -1,7 +1,7 @@
 function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot) {
 
     // Key to input variables:
-	// plocs = array containing peak locations (e.g. vibrational plocsuencies)
+	// plocs = array containing peak locations (e.g. vibrational frequencies)
 	// pamps = array containing peak amplitudes/heights
 	// xmin = x-value where plot starts
 	// xmax = x-value where plot ends
@@ -31,6 +31,8 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 
     // Set up the plotly graphing information and create the graph
 
+    var gtitleplus = gtitle + " with FWHH = " + fwhh;
+
     var trace = {
         x: lambda,
         y: amp
@@ -39,7 +41,7 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
     var data = [trace];
 
     var layout = {
-        title: gtitle,
+        title: gtitleplus,
         xaxis: {
             title: xlab,
             autorange: revplot
@@ -56,7 +58,7 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
     // Create csv for download
 		
     var csvtext = []
-    var csvtitle = " ," + gtitle + "\n";
+    var csvtitle = " ," + gtitleplus + "\n";
     var csvcols = xlab + "," + ylab + "\n";
 		
     csvtext.push(csvtitle);
