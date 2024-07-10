@@ -206,6 +206,67 @@ function toggle_advanced(){
     advanced.style.display='none';
   }
 }
+//Trying to use ChatGPT code - package type works, but spectrum fails on almost all
+//https://chatgpt.com/share/f20ad888-223a-4019-b4cd-1f6b25d10710
+function determineSpectrumAndPackage(fileContent) {
+    let packageType = '';
+    let spectrumType = '';
+
+    // Identify the package type
+    if (/GAMESS VERSION/i.test(fileContent)) {
+        packageType = 'GAMESS';
+    } else if (/NWChem/i.test(fileContent)) {
+        packageType = 'NWChem';
+    } else if (/ORCA VERSION/i.test(fileContent)) {
+        packageType = 'ORCA';
+    } else if (/Psi4/i.test(fileContent)) {
+        packageType = 'Psi4';
+    }
+
+    // Identify the spectrum type
+    if (packageType === 'GAMESS') {
+        if (/VIBRATIONAL ANALYSIS/i.test(fileContent) && /IR INTENSITY/i.test(fileContent)) {
+            spectrumType = 'Infrared';
+        } else if (/RAMAN SCATTERING ACTIVITIES/i.test(fileContent)) {
+            spectrumType = 'Raman';
+        } else if (/EXCITED STATE/i.test(fileContent)) {
+            spectrumType = 'UV/Vis';
+        }
+    } else if (packageType === 'NWChem') {
+        if (/Vibrational Frequencies/i.test(fileContent) && /IR Intensities/i.test(fileContent)) {
+            spectrumType = 'Infrared';
+        } else if (/Raman Activities/i.test(fileContent)) {
+            spectrumType = 'Raman';
+        } else if (/TDDFT Excitation Energies/i.test(fileContent)) {
+            spectrumType = 'UV/Vis';
+        }
+    } else if (packageType === 'ORCA') {
+        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent) && /IR Inten/i.test(fileContent)) {
+            spectrumType = 'Infrared';
+        } else if (/RAMAN SCATTERING ACTIVITIES|RAMAN ACTIVITIES/i.test(fileContent)) {
+            spectrumType = 'Raman';
+        } else if (/TD-DFT\/TDA EXCITED STATES/i.test(fileContent)) {
+            spectrumType = 'UV/Vis';
+        }
+    } else if (packageType === 'Psi4') {
+        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent) && /IR Inten/i.test(fileContent)) {
+            spectrumType = 'Infrared';
+        } else if (/RAMAN ACTIVITIES/i.test(fileContent)) {
+            spectrumType = 'Raman';
+        } else if (/TDDFT EXCITED STATES/i.test(fileContent)) {
+            spectrumType = 'UV/Vis';
+        }
+    }
+
+    return {
+        packageType: packageType,
+        spectrumType: spectrumType
+    };
+}
+
+
+
+
 var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
 
 function predict_file_type(outfile){
@@ -261,6 +322,10 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	reader.addEventListener('load', function(e) {
             var outfile = e.target.result;
             predict_file_type(outfile);
+            // Example usage
+            const fileContent = outfile; // the content of your output file as a string
+            const result = determineSpectrumAndPackage(fileContent);
+            console.log(`Package: ${result.packageType}, Spectrum: ${result.spectrumType}`);
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
             // console.log(predict_file_type(outfile));
