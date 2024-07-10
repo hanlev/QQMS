@@ -27,7 +27,9 @@ body {
 	  font-family: "arial";
 }
 
-
+#hidden_status_div {
+        display: none;
+}
 #output-button {
         text-align: center;
         margin: 40px auto;
@@ -88,7 +90,7 @@ body {
 </head>
 
 <body>
-
+<div id="hidden_status_div"></div>
 <h1>Quick-QM-Spectra: Spectra from Electronic Structure Program Output</h1>
 
 <p>This program is intended to take an output file from
@@ -204,6 +206,19 @@ function toggle_advanced(){
     advanced.style.display='none';
   }
 }
+var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
+
+function predict_file_type(outfile){
+  //tries to autodetect program type from file and sets my_qmprog.value but leaves it alone if user has already selected
+  predicted_progtyp = outfile.match(/GAMESS|NWChem|nwchem|ORCA|Psi4/);
+  var my_qmprog = document.getElementById("my_qmprog");
+  document.getElementById("hidden_status_div").innerText = predicted_progtyp[0];
+  if (my_qmprog.value == "none"){
+    my_qmprog.value = progtypesJSON[predicted_progtyp[0]];
+  }
+
+  return progtypesJSON[predicted_progtyp[0]]
+}
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
@@ -245,8 +260,10 @@ document.querySelector("#file-input").addEventListener('change', function() {
         // file reading finished successfully
 	reader.addEventListener('load', function(e) {
             var outfile = e.target.result;
+            predict_file_type(outfile);
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
+            // console.log(predict_file_type(outfile));
             switch(spectyp) {
 	      case "ir":
                 switch(progtyp) {

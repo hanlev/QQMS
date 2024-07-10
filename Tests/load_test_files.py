@@ -1,14 +1,27 @@
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time, os
 from pathlib import Path
 
-driver = webdriver.Firefox()
 
+options = Options()
+options.add_argument("--headless")
 
-#This script loads quick_qm_spectra.html in Selenium, loads the first test file with default values, and exports a screenshot named "screenshot.ong"
+#This script loads quick_qm_spectra.html in Selenium, loads each test file and exports a screenshot named "screenshot-OUTPUTFILE.png"
+#Autodetect of program seems to work, but without a way to autodetect spectrum type graph won't load
+def input_settings(uploadfile, my_spect='ir'): #my_qmprog="gamess",fwhh=50
+    if "_opt" in uploadfile:
+        my_spect = "ir"
+    elif "_ram" in uploadfile:
+        my_spect = "raman"
+    elif "_uvv" in uploadfile:
+        my_spect = "uvvis"
+    # driver.execute_script("document.getElementById('my_qmprog').value= " + "'" + my_qmprog + "'" + ';')
+    driver.execute_script("document.getElementById('my_spect').value = " + "'" + my_spect  + "'" + ';')
+    # driver.execute_script("document.getElementById('fwhh').value = " + str(fwhh) + ';')
 
 #Assumes starting Python script in Tests folder
 #Grabs first file from Tests/BzOrig
@@ -17,24 +30,26 @@ print(base_dir)
 tests_dir = os.path.join(base_dir, "Tests", "BzOrig")
 test_files = sorted(os.listdir(tests_dir))
 
-upload_file = os.path.join(tests_dir, test_files[0]) #uploads only first test file
-print(upload_file)
-driver.get("file://" + os.path.join(base_dir, "quick_qm_spectra.html"))
+upload_files = [os.path.join(tests_dir, x) for x in test_files]
+print(upload_files)
+for upload_file in upload_files:
+    driver = webdriver.Firefox(options=options)
+    driver.get("file://" + os.path.join(base_dir, "quick_qm_spectra.html"))
 
-def input_settings(my_qmprog="gamess", my_spect='ir', fwhh=50):
-    driver.execute_script("document.getElementById('my_qmprog').value= " + "'" + my_qmprog + "'" + ';')
-    driver.execute_script("document.getElementById('my_spect').value = " + "'" + my_spect  + "'" + ';')
-    driver.execute_script("document.getElementById('fwhh').value = " + str(fwhh) + ';')
+    input_settings(uploadfile=upload_file)
 
-input_settings()
+    file_input_button = driver.find_element(By.ID, "output-button")
+    file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
+    file_input.send_keys(upload_file)
+    time.sleep(4)
+    #Scroll to bottom of page
+    driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    # driver.implicitly_wait(10)
+    print(upload_file)
+    
+    print(driver.find_element(By.ID, "my_qmprog").get_attribute("value"))
+    print(driver.find_element(By.ID, "hidden_status_div").get_attribute("innerHTML"))
+    # print(driver.find_element(By.ID, "my_spect").get_attribute("value"))
+    driver.save_full_page_screenshot("screenshot-" + os.path.basename(upload_file).replace(".out","") + ".png")
 
-file_input_button = driver.find_element(By.ID, "output-button")
-file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
-file_input.send_keys(upload_file)
-
-#Scroll to bottom of page
-driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-driver.implicitly_wait(2)
-driver.save_full_page_screenshot("screenshot.png")
-
-driver.quit()
+    driver.quit()
