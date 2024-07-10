@@ -174,6 +174,8 @@ body {
 <div id="cont-3dtext" class="mol-container"></div>
 
 <script type="text/javascript">
+var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
+var spectypesJSON = {"Infrared": "ir", "Raman": "raman", "UV\/Vis": "uvvis"};
 function set_defaults(){
   var fwhh = document.getElementById("fwhh");
   var my_spect = document.getElementById("my_spect");
@@ -206,7 +208,9 @@ function toggle_advanced(){
     advanced.style.display='none';
   }
 }
-//Trying to use ChatGPT code - package type works, but spectrum fails on almost all
+
+//Trying to use ChatGPT code - package type works, manually fixed spectrum type based on available test files
+//Untested with NWChem Inrared, ORCA Infrared, and Psi4 Raman
 //https://chatgpt.com/share/f20ad888-223a-4019-b4cd-1f6b25d10710
 function determineSpectrumAndPackage(fileContent) {
     let packageType = '';
@@ -225,68 +229,52 @@ function determineSpectrumAndPackage(fileContent) {
 
     // Identify the spectrum type
     if (packageType === 'GAMESS') {
-        if (/VIBRATIONAL ANALYSIS/i.test(fileContent) && /IR INTENSITY/i.test(fileContent)) {
+        if (/IR INTENSITY/i.test(fileContent) && !(/RAMAN/i.test(fileContent))) {
             spectrumType = 'Infrared';
-        } else if (/RAMAN SCATTERING ACTIVITIES/i.test(fileContent)) {
+        } else if (/RAMAN/i.test(fileContent)) {
             spectrumType = 'Raman';
         } else if (/EXCITED STATE/i.test(fileContent)) {
             spectrumType = 'UV/Vis';
         }
     } else if (packageType === 'NWChem') {
-        if (/Vibrational Frequencies/i.test(fileContent) && /IR Intensities/i.test(fileContent)) {
-            spectrumType = 'Infrared';
-        } else if (/Raman Activities/i.test(fileContent)) {
+        if (/Vibrational Frequencies/i.test(fileContent) && /IR Intensities/i.test(fileContent) && !(/RAMAN/i.test(fileContent))) {
+            spectrumType = 'Infrared';//no example file of infrared
+        } else if (/Raman/i.test(fileContent)) {
             spectrumType = 'Raman';
-        } else if (/TDDFT Excitation Energies/i.test(fileContent)) {
+        } else if (/TDDFT/i.test(fileContent)) {
             spectrumType = 'UV/Vis';
         }
     } else if (packageType === 'ORCA') {
         if (/VIBRATIONAL FREQUENCIES/i.test(fileContent) && /IR Inten/i.test(fileContent)) {
-            spectrumType = 'Infrared';
-        } else if (/RAMAN SCATTERING ACTIVITIES|RAMAN ACTIVITIES/i.test(fileContent)) {
+            spectrumType = 'Infrared';//no example file of infrared
+        } else if (/RAMAN SPECTRUM/i.test(fileContent)) {
             spectrumType = 'Raman';
-        } else if (/TD-DFT\/TDA EXCITED STATES/i.test(fileContent)) {
+        } else if (/ORCA TD-DFT\/TDA CALCULATION/i.test(fileContent)) {
             spectrumType = 'UV/Vis';
         }
     } else if (packageType === 'Psi4') {
-        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent) && /IR Inten/i.test(fileContent)) {
+        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent)) {
             spectrumType = 'Infrared';
         } else if (/RAMAN ACTIVITIES/i.test(fileContent)) {
-            spectrumType = 'Raman';
-        } else if (/TDDFT EXCITED STATES/i.test(fileContent)) {
+            spectrumType = 'Raman';//no example file of raman
+        } else if (/EXCITED STATE/i.test(fileContent)) {
             spectrumType = 'UV/Vis';
         }
     }
-
+    document.getElementById("hidden_status_div").innerText = packageType + ',' + spectrumType;
     return {
         packageType: packageType,
         spectrumType: spectrumType
     };
 }
 
-
-
-
-var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
-
-function predict_file_type(outfile){
-  //tries to autodetect program type from file and sets my_qmprog.value but leaves it alone if user has already selected
-  predicted_progtyp = outfile.match(/GAMESS|NWChem|nwchem|ORCA|Psi4/);
-  var my_qmprog = document.getElementById("my_qmprog");
-  document.getElementById("hidden_status_div").innerText = predicted_progtyp[0];
-  if (my_qmprog.value == "none"){
-    my_qmprog.value = progtypesJSON[predicted_progtyp[0]];
-  }
-
-  return progtypesJSON[predicted_progtyp[0]]
-}
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
 	if(all_files.length == 0) {
-           alert('Error : No file selected');
-           return;
-        }
+    alert('Error : No file selected');
+    return;
+    }
 
 	// first file selected by user
 	var file = all_files[0];
@@ -321,34 +309,39 @@ document.querySelector("#file-input").addEventListener('change', function() {
         // file reading finished successfully
 	reader.addEventListener('load', function(e) {
             var outfile = e.target.result;
-            predict_file_type(outfile);
-            // Example usage
-            const fileContent = outfile; // the content of your output file as a string
-            const result = determineSpectrumAndPackage(fileContent);
+            const result = determineSpectrumAndPackage(outfile);
             console.log(`Package: ${result.packageType}, Spectrum: ${result.spectrumType}`);
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
-            // console.log(predict_file_type(outfile));
-            switch(spectyp) {
+            if (spectyp == 'none'){
+              spectyp = spectypesJSON[result.spectrumType];
+              document.getElementById("my_spect").value = spectyp;
+            }
+            if (progtyp == 'none'){
+              progtyp = progtypesJSON[result.packageType];
+              document.getElementById("my_qmprog").value = progtyp;
+            }            
+            console.log(progtyp, spectyp);
+       switch(spectyp) {
 	      case "ir":
-                switch(progtyp) {
-		  case "gamess":
-	            iii = ir_info_gamess(outfile);
-                    var molxyz = last_geom_gamess(outfile);
-		    break;
-		  case "orca":
-	            iii = ir_info_orca(outfile);
-                    var molxyz = last_geom_orca(outfile);
-		    break;
-		  case "nwchem":
-                    iii = ir_info_nwchem(outfile);
-                    var molxyz = last_geom_nwchem(outfile);
-		    break;
-		  case "psi4":
-                    iii = ir_info_psi4(outfile);
-                    var molxyz = last_geom_psi4(outfile);
-		    break;
-		}
+          switch(progtyp) {
+            case "gamess":
+              iii = ir_info_gamess(outfile);
+              var molxyz = last_geom_gamess(outfile);
+              break;
+            case "orca":
+              iii = ir_info_orca(outfile);
+              var molxyz = last_geom_orca(outfile);
+              break;
+            case "nwchem":
+              iii = ir_info_nwchem(outfile);
+              var molxyz = last_geom_nwchem(outfile);
+              break;
+            case "psi4":
+              iii = ir_info_psi4(outfile);
+              var molxyz = last_geom_psi4(outfile);
+              break;
+            }
 	        var xmin = 400; // minimum wavenumber value in cm^-1 of IR plot
 	        var xmax = 4500; // maximum wavenumber value in cm^-1 of IR plot
 	        var xlab = "Frequency (cm^-1)";
@@ -361,24 +354,24 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	        var invplot = -1;  // make all absorbances negative for IR spectrum to match expt
 	        break;
 	      case "uvvis":
-                switch(progtyp) {
-		  case "gamess":
+          switch(progtyp) {
+		        case "gamess":
 	            uuu = uvvis_info_gamess(outfile);
-                    var molxyz = last_geom_gamess(outfile);
-		    break;
-		  case "orca":
-		    uuu = uvvis_info_orca(outfile);
-                    var molxyz = last_geom_orca(outfile);
-		    break;
-		  case "nwchem":
-		    uuu = uvvis_info_nwchem(outfile);
-                    var molxyz = last_geom_nwchem(outfile);
-		    break;
-		  case "psi4":
-		    uuu = uvvis_info_psi4(outfile);
-                    var molxyz = last_geom_psi4(outfile);
-		    break;
-		}
+              var molxyz = last_geom_gamess(outfile);
+		          break;
+		        case "orca":
+		          uuu = uvvis_info_orca(outfile);
+              var molxyz = last_geom_orca(outfile);
+		          break;
+		        case "nwchem":
+		          uuu = uvvis_info_nwchem(outfile);
+              var molxyz = last_geom_nwchem(outfile);
+		          break;
+		        case "psi4":
+		          uuu = uvvis_info_psi4(outfile);
+              var molxyz = last_geom_psi4(outfile);
+		          break;
+		        }
 	        var xmin = 0; // minimum wavelength value in nm of UV/Vis plot
 	        var xmax = 1000; // maximum wavelength value in nm of UV/Vis plot
 	        var xlab = "Wavelength (nm)";
@@ -390,25 +383,25 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	        var revplot = 'false'; // do not reverse plot x-axis or autoset range for UV/Vis spectrum
 	        var invplot = 1;  // make all absorbances positive for UV/Vis spectrum to match expt
 	        break;
-	      case "raman":
-                switch(progtyp) {
-		  case "gamess":
-	            rrr = raman_info_gamess(outfile);
-                    var molxyz = last_geom_gamess(outfile);
-		    break;
-		  case "orca":
-		    rrr = raman_info_orca(outfile);
-                    var molxyz = last_geom_orca(outfile);
-		    break;
-		  case "nwchem":
-		    rrr = raman_info_nwchem(outfile);
-                    var molxyz = last_geom_nwchem(outfile);
-		    break;
-		  case "psi4":
-		    rrr = raman_info_psi4(outfile);
-                    var molxyz = last_geom_psi4(outfile);
-		    break;
-		}
+	        case "raman":
+            switch(progtyp) {
+		          case "gamess":
+	              rrr = raman_info_gamess(outfile);
+                var molxyz = last_geom_gamess(outfile);
+      		      break;
+		          case "orca":
+		            rrr = raman_info_orca(outfile);
+                var molxyz = last_geom_orca(outfile);
+		            break;
+		          case "nwchem":
+		            rrr = raman_info_nwchem(outfile);
+                var molxyz = last_geom_nwchem(outfile);
+		            break;
+		          case "psi4":
+		            rrr = raman_info_psi4(outfile);
+                var molxyz = last_geom_psi4(outfile);
+		            break;
+		          }
 	        var xmin = 400; // minimum wavenumber value in cm^-1 of Raman plot
 	        var xmax = 4500; // maximum wavenumber value in cm^-1 of Raman plot
 	        var xlab = "Frequency (cm^-1)";
@@ -421,10 +414,10 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	        var revplot = 'reversed'; // reverse plot x-axis for Raman spectrum
 	        var invplot = 1;
 	        break;
-            }
-            var fwhh = document.forms["my_fwhh"]["fwhh"].value;
-            if ((fwhh == null)||(fwhh == undefined)||(fwhh <= 0)) {
-                fwhh = fwhhdef;
+          }
+          var fwhh = document.forms["my_fwhh"]["fwhh"].value;
+          if ((fwhh == null)||(fwhh == undefined)||(fwhh <= 0)) {
+              fwhh = fwhhdef;
             }
             
 	    plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot);

@@ -36,12 +36,12 @@ for upload_file in upload_files:
     driver = webdriver.Firefox(options=options)
     driver.get("file://" + os.path.join(base_dir, "quick_qm_spectra.html"))
 
-    input_settings(uploadfile=upload_file)
+    # input_settings(uploadfile=upload_file)
 
     file_input_button = driver.find_element(By.ID, "output-button")
     file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
     file_input.send_keys(upload_file)
-    time.sleep(4)
+    time.sleep(5)
     #Scroll to bottom of page
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     # driver.implicitly_wait(10)
