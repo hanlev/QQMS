@@ -141,6 +141,23 @@ body {
   	fwhh:<input type="text" id="fwhh" name="fwhh"><br>
   </form>
 
+  <h3>Set Desired Lineshape </h3>
+  <p>In the space below, please specify the desired lineshape,
+     either Lorentzian (default) or Gaussian.</p>
+  <ul>
+  	<li>Lorentzian lineshapes typically are best for spectra 
+	    of gas-phase and many liquid-phase samples.</li>
+  	<li>Gaussian lineshapes typically are best for spectra of solid-phase samples</li>
+  </ul>
+
+  <form>
+    <label for="my_lineshape">Please select the <b>Lineshape Function:</b></label>
+    <select id="my_lineshape" name="linetype">
+    <option value="lorent">Lorentzian</option>
+    <option value="gauss">Gaussian</option>
+   </select>
+</form>
+
   <h3>Set Desired Laser Excitation Wavelength (only applies to Raman spectra)</h3>
   <p>In the space below, please specify the wavelength (in nm) of the
      laser light used to excite the sample.</p>
@@ -173,6 +190,10 @@ body {
 
 <script type="text/javascript">
 function set_defaults(){
+  // IMPORTANT NOTE: these default values are also set in a separate
+  //  JavaScript function below that is executed when an output file
+  //  is selected. If changing default values here, be sure to change
+  //  them below as well.
   var fwhh = document.getElementById("fwhh");
   var my_spect = document.getElementById("my_spect");
   console.log(my_spect.value);
@@ -344,8 +365,12 @@ document.querySelector("#file-input").addEventListener('change', function() {
             if ((fwhh == null)||(fwhh == undefined)||(fwhh <= 0)) {
                 fwhh = fwhhdef;
             }
+            var lintyp = document.getElementById("my_lineshape").value;
+            if ((lintyp == null)||(lintyp == undefined)) {
+                lintyp = "lorent";
+            }
             
-	    plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot);
+	    plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp);
             
 	    let element = document.querySelector('#cont-3dview');
             let config = { backgroundColor: '0xd7d7d7' };
