@@ -54,11 +54,11 @@ function last_geom_gamess(outfile) {
 	n = -10;
         var foundinp = false
 	while (i<rows.length && foundinp == false) {
-	    n = rows[i].search(/INPUT CARD> \$DATA/);
+	    n = rows[i].search(/COORDINATES \(BOHR/);
 	    if (n>=0){
 	        foundinp = true;
 		foundline = true;
-		startline = i+3;
+		startline = i+2;
 	    } 
 	    i++;
 	}
@@ -66,13 +66,15 @@ function last_geom_gamess(outfile) {
 	i = startline;
 	var foundie = false;
 	while (i<rows.length && foundie == false) {
-            n = rows[i].search("INPUT CARD>");
-	    var zz = rows[i].search(/\$END/);
-	    if (n>=0 && zz<0) {
-                var tline = rows[i].split(/>/);
-                var trow = tline[1].trim();
-                var fields = trow.split(/\s+/);
-                var xyzline = fields[0] + " " + fields[2] + " " + fields[3] + " " + fields[4] + "\n";
+            n = rows[i].search(/[0-9]/);
+	    if (n>=0) {
+                var tline = rows[i].trim();
+                var fields = tline.split(/\s+/);
+                // Divide by 1.889725989 Bohr/A to convert to Angstroms
+                var xcrd = Number(fields[2])/1.889725989
+                var ycrd = Number(fields[3])/1.889725989
+                var zcrd = Number(fields[4])/1.889725989
+                var xyzline = fields[0] + " " + xcrd + " " + ycrd + " " + zcrd + "\n";
                 coords = coords + xyzline;
                 natom++;
 	    } else {
@@ -95,10 +97,7 @@ function last_geom_gamess(outfile) {
 		       "optimization does not appear to have been performed in this output file.<br>" +
                        "<p><i>Please note:</i> the output file was searched for geometries in Cartesian coordinates. " +
                        "If the molecular geometry was input in z-matrix or other format, the molecule " +
-	               "might not be displayed correctly.</p>" +
-		    "<mark>Some atoms may " +
-		    "not be displayed, because GAMESS only reprints the first " +
-		    "50 lines of the input file</mark>";
+	               "might not be displayed correctly.</p>";
     } else if (foundline == true) {
         geom_message = "No equilibrium geometry was found in this output file. " +
 		       "Displaying the <b>last geometry</b> of the molecule" +
