@@ -356,3 +356,9 @@ function raman_info_nwchem(outfile) {
 }
 
 
+function raman_info_psi4(outfile) {
+    document.querySelector("#contents").innerHTML = "<b>Our apologies: " +
+        "currently Raman spectra cannot be plotted for Psi4 calculations.";
+    document.querySelector("#contents").style.display = 'block';
+    document.querySelector("#file-input-label").style.display = 'block';
+}
