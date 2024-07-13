@@ -86,6 +86,16 @@ body {
   float: left;
 }
 
+.invalid 
+  {
+  border: 2px solid red;
+}
+
+#required_text {
+  font-style: italic;
+  font-size: small;
+  color: gray;
+}
 </style>
 </head>
 
@@ -109,13 +119,13 @@ body {
 <br>
 <form>
 	<label for="my_spect">Please select the <b>Spectrum Type:</b></label>
-   <select id="my_spect" name="spectyp" onchange="set_defaults()">
+   <select id="my_spect" name="spectyp" onchange="set_defaults()" class="invalid">
      <option value="none"></option>
      <option value="ir">IR</option>
      <option value="uvvis">UV/Vis</option>
      <option value="raman">Raman</option>
-   </select>
-</form>
+   </select><span id="required_text">(required)</span>
+</form> 
 <p>Simply click on the blue button below to select your
    output file. </p>
 <p><i>Note</i>: if, after viewing a spectrum below,
@@ -205,17 +215,21 @@ function set_defaults(){
     case "ir":
       console.log("IR");
       fwhh.value = 50;
+      my_spect.classList.remove("invalid");
       break;
     case "uvvis":
       console.log("UV/Vis");
       fwhh.value = 50;
+      my_spect.classList.remove("invalid");
       break;
     case "raman":
       console.log("Raman");
       fwhh.value = 10;
+      my_spect.classList.remove("invalid");
       break;
     default:
       fwhh.value = "";
+      my_spect.classList.add("invalid");
       break;
   }
 }
@@ -230,68 +244,25 @@ function toggle_advanced(){
   }
 }
 
-//Trying to use ChatGPT code - package type works, manually fixed spectrum type based on available test files
-//Untested with NWChem Inrared, ORCA Infrared, and Psi4 Raman
-//https://chatgpt.com/share/f20ad888-223a-4019-b4cd-1f6b25d10710
-function determineSpectrumAndPackage(fileContent) {
-    let packageType = '';
-    let spectrumType = '';
-
-    // Identify the package type
-    if (/GAMESS VERSION/i.test(fileContent)) {
-        packageType = 'GAMESS';
-    } else if (/NWChem/i.test(fileContent)) {
-        packageType = 'NWChem';
-    } else if (/ORCA VERSION/i.test(fileContent)) {
-        packageType = 'ORCA';
-    } else if (/Psi4/i.test(fileContent)) {
-        packageType = 'Psi4';
-    }
-
-    // Identify the spectrum type
-    if (packageType === 'GAMESS') {
-        if (/IR INTENSITY/i.test(fileContent) && !(/RAMAN/i.test(fileContent))) {
-            spectrumType = 'Infrared';
-        } else if (/RAMAN/i.test(fileContent)) {
-            spectrumType = 'Raman';
-        } else if (/EXCITED STATE/i.test(fileContent)) {
-            spectrumType = 'UV/Vis';
-        }
-    } else if (packageType === 'NWChem') {
-        if (/Vibrational Frequencies/i.test(fileContent) && /IR Intensities/i.test(fileContent) && !(/RAMAN/i.test(fileContent))) {
-            spectrumType = 'Infrared';//no example file of infrared
-        } else if (/Raman/i.test(fileContent)) {
-            spectrumType = 'Raman';
-        } else if (/TDDFT/i.test(fileContent)) {
-            spectrumType = 'UV/Vis';
-        }
-    } else if (packageType === 'ORCA') {
-        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent) && /IR Inten/i.test(fileContent)) {
-            spectrumType = 'Infrared';//no example file of infrared
-        } else if (/RAMAN SPECTRUM/i.test(fileContent)) {
-            spectrumType = 'Raman';
-        } else if (/ORCA TD-DFT\/TDA CALCULATION/i.test(fileContent)) {
-            spectrumType = 'UV/Vis';
-        }
-    } else if (packageType === 'Psi4') {
-        if (/VIBRATIONAL FREQUENCIES/i.test(fileContent)) {
-            spectrumType = 'Infrared';
-        } else if (/RAMAN ACTIVITIES/i.test(fileContent)) {
-            spectrumType = 'Raman';//no example file of raman
-        } else if (/EXCITED STATE/i.test(fileContent)) {
-            spectrumType = 'UV/Vis';
-        }
-    }
-    document.getElementById("hidden_status_div").innerText = packageType + ',' + spectrumType;
-    return {
-        packageType: packageType,
-        spectrumType: spectrumType
-    };
+function predict_file_type(outfile){
+  //tries to autodetect program type from file and sets my_qmprog.value but leaves it alone if user has already selected
+  predicted_progtyp = outfile.match(/GAMESS|NWChem|nwchem|ORCA|Psi4/);
+  var my_qmprog = document.getElementById("my_qmprog");
+  document.getElementById("hidden_status_div").innerText = predicted_progtyp[0];
+  if (my_qmprog.value == "none"){
+    my_qmprog.value = progtypesJSON[predicted_progtyp[0]];
+    return progtypesJSON[predicted_progtyp[0]];
+  }
+  return my_qmprog.value;
 }
 
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
+  if(document.getElementById("my_spect").value == "none"){
+    alert('Error : No spectrum type selected');
+    return;
+  }
 	if(all_files.length == 0) {
     alert('Error : No file selected');
     return;
@@ -330,17 +301,17 @@ document.querySelector("#file-input").addEventListener('change', function() {
         // file reading finished successfully
 	reader.addEventListener('load', function(e) {
             var outfile = e.target.result;
-            const result = determineSpectrumAndPackage(outfile);
-            console.log(`Package: ${result.packageType}, Spectrum: ${result.spectrumType}`);
+            predict_file_type(outfile);
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
             if (spectyp == 'none'){
-              spectyp = spectypesJSON[result.spectrumType];
-              document.getElementById("my_spect").value = spectyp;
+              alert("Error: Could not determine spectrum type from file. Please select spectrum type.");
+              
+              return;
             }
             if (progtyp == 'none'){
-              progtyp = progtypesJSON[result.packageType];
-              document.getElementById("my_qmprog").value = progtyp;
+              alert("Error: Could not determine program type from file. Please select program type.");
+              return;
             }            
             console.log(progtyp, spectyp);
        switch(spectyp) {
