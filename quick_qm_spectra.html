@@ -96,6 +96,16 @@ body {
   font-size: small;
   color: gray;
 }
+.invalid 
+  {
+  border: 2px solid red;
+}
+
+#required_text {
+  font-style: italic;
+  font-size: small;
+  color: gray;
+}
 </style>
 </head>
 
@@ -216,10 +226,12 @@ function set_defaults(){
       console.log("IR");
       fwhh.value = 50;
       my_spect.classList.remove("invalid");
+      my_spect.classList.remove("invalid");
       break;
     case "uvvis":
       console.log("UV/Vis");
       fwhh.value = 50;
+      my_spect.classList.remove("invalid");
       my_spect.classList.remove("invalid");
       break;
     case "raman":
@@ -259,6 +271,10 @@ function predict_file_type(outfile){
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
+  if(document.getElementById("my_spect").value == "none"){
+    alert('Error : No spectrum type selected');
+    return;
+  }
   if(document.getElementById("my_spect").value == "none"){
     alert('Error : No spectrum type selected');
     return;
@@ -308,8 +324,13 @@ document.querySelector("#file-input").addEventListener('change', function() {
               alert("Error: Could not determine spectrum type from file. Please select spectrum type.");
               
               return;
+              alert("Error: Could not determine spectrum type from file. Please select spectrum type.");
+              
+              return;
             }
             if (progtyp == 'none'){
+              alert("Error: Could not determine program type from file. Please select program type.");
+              return;
               alert("Error: Could not determine program type from file. Please select program type.");
               return;
             }            
