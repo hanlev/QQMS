@@ -106,6 +106,37 @@ body {
   font-size: small;
   color: gray;
 }
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: black;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  
+  /* Position the tooltip */
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: 50%;
+  margin-left: -60px;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
+.tooltip .tooltiptext a{
+  color: white;
+}
+
 </style>
 </head>
 
@@ -117,7 +148,14 @@ body {
    an electronic structure calculation and create a spectrum 
    for comparison with experimental data. </p>
 <form>
-	<label for="my_qmprog">Please select the <b>Electronic Structure Program:</b></label>
+	<label for="my_qmprog">Please select the <div class="tooltip"><b>Electronic Structure Program:</b>
+	<span class="tooltiptext"><ul>
+	<li><a href="https://www.msg.chem.iastate.edu/gamess/">GAMESS</a></span></li>
+	<li><a href="https://www.faccts.de/orca/">ORCA</a></span></li>
+	<li><a href="https://www.nwchem-sw.org/">NWChem</a></span></li>
+	<li><a href="https://psicode.org/">Psi4</a></span></li>
+	</ul>
+</div></label>
    <select id="my_qmprog" name="qmprog">
      <option value="none"></option>
      <option value="gamess">GAMESS</option>
@@ -191,12 +229,12 @@ body {
   </form>
 
 </div>
-
-<div id="output-button">
-      <label for="file-input" id="file-input-label">Choose Output File</label>
+<br>
+<div id="output-button" class="tooltip">
+      <label for="file-input" id="file-input-label" >Choose Output File</label>
       <input type="file" id="file-input" accept="text/plain,.gam,.out" /> 
       <div id="file-progress-container"><span id="file-progress-percent"></span>% read</div>
-      <div id="contents"></div>
+      <div id="contents"></div><span class="tooltiptext">Extensions:  .txt, .text, .out, .dat, or .gam <br> <60MB</span>
  </div>
 
  <div id="getcsv" style="display: none">
