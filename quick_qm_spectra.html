@@ -310,11 +310,7 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
   if(document.getElementById("my_spect").value == "none"){
-    alert('Error : No spectrum type selected');
-    return;
-  }
-  if(document.getElementById("my_spect").value == "none"){
-    alert('Error : No spectrum type selected');
+    alert('Error : No spectrum type selected. Please refresh browser window and select spectrum type.');
     return;
   }
 	if(all_files.length == 0) {
@@ -359,17 +355,12 @@ document.querySelector("#file-input").addEventListener('change', function() {
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
             if (spectyp == 'none'){
-              alert("Error: Could not determine spectrum type from file. Please select spectrum type.");
-              
-              return;
-              alert("Error: Could not determine spectrum type from file. Please select spectrum type.");
+              alert("Error: Could not determine spectrum type from file. Please refresh browser window and select spectrum type.");
               
               return;
             }
             if (progtyp == 'none'){
-              alert("Error: Could not determine program type from file. Please select program type.");
-              return;
-              alert("Error: Could not determine program type from file. Please select program type.");
+              alert("Error: Could not determine program type from file. Please refresh browser window and select program type.");
               return;
             }            
             console.log(progtyp, spectyp);
