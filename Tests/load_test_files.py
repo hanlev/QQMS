@@ -7,9 +7,19 @@ import time
 import os
 from pathlib import Path
 
-
 options = Options()
 #options.add_argument("--headless")
+
+download_dir = os.getcwd()  # Set your download directory
+
+# Ensure the download directory exists
+if not os.path.exists(download_dir):
+    os.makedirs(download_dir)
+
+options.set_preference("browser.download.folderList", 2)
+options.set_preference("browser.download.manager.showWhenStarting", False)
+options.set_preference("browser.download.dir", download_dir)
+options.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/csv,application/vnd.ms-excel")
 
 #This script loads quick_qm_spectra.html in Selenium, loads each test file and exports a screenshot named "screenshot-OUTPUTFILE.png"
 #Autodetect of program seems to work, using filename to autodetect spectrum
@@ -31,10 +41,10 @@ print(base_dir)
 tests_dir = os.path.join(base_dir, "Tests", "BzOrig")
 test_files = sorted(os.listdir(tests_dir))
 
-upload_files = [os.path.join(tests_dir, x) for x in test_files]
+upload_files = [os.path.join(tests_dir, x) for x in test_files if x.endswith(".out")]
 print(upload_files)
 for upload_file in upload_files:
-    driver = webdriver.Firefox(options=options)
+    driver = webdriver.Firefox(options=options )
     driver.get("file://" + os.path.join(base_dir, "quick_qm_spectra.html"))
 
     input_settings(uploadfile=upload_file)
@@ -53,4 +63,18 @@ for upload_file in upload_files:
     # print(driver.find_element(By.ID, "my_spect").get_attribute("value"))
     driver.save_full_page_screenshot("screenshot-" + os.path.basename(upload_file).replace(".out","") + ".png")
 
+    create_csv = driver.find_element(By.ID, "create")
+    create_csv.click()
+
+    download_csv = driver.find_element(By.ID, "downloadlink")#.get_attribute("href")
+    print(download_csv)
+    #path, headers = urlretrieve(download_csv, os.path.basename(upload_file).replace(".out",".csv"))
+    #for name, value in headers.items():
+        #print(name, value)
+    
+    download_csv.click()
+
+    os.rename("spectrum.csv",os.path.basename(upload_file).replace(".out",".csv"))
+    time.sleep(1)
+    
     driver.quit()
