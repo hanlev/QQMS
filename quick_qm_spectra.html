@@ -31,6 +31,8 @@ body {
         display: none;
 }
 #output-button {
+        position: absolute;
+        left: 30px;
         text-align: center;
         margin: 40px auto;
 }
@@ -86,11 +88,6 @@ body {
   float: left;
 }
 
-.invalid 
-  {
-  border: 2px solid red;
-}
-
 #required_text {
   font-style: italic;
   font-size: small;
@@ -106,6 +103,7 @@ body {
   font-size: small;
   color: gray;
 }
+
 .tooltip {
   position: relative;
   display: inline-block;
@@ -178,7 +176,7 @@ body {
    output file. </p>
 <p><i>Note</i>: if, after viewing a spectrum below,
    you want to generate a new spectrum with different settings,
-   you will need to click your browser's "refresh" button.</p>
+   you will need to click your browser's <a href="quick_qm_spectra.html">"refresh"</a> button.</p>
 
  <button type="button" onclick="toggle_advanced()">Advanced Settings</button>
 
@@ -310,7 +308,8 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
   if(document.getElementById("my_spect").value == "none"){
-    alert('Error : No spectrum type selected. Please refresh browser window and select spectrum type.');
+    alert('Error : No spectrum type selected. Please select spectrum type after the browser refreshes.');
+    location.reload()
     return;
   }
 	if(all_files.length == 0) {
