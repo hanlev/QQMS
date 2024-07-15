@@ -9,10 +9,10 @@ from pathlib import Path
 
 
 options = Options()
-options.add_argument("--headless")
+#options.add_argument("--headless")
 
 #This script loads quick_qm_spectra.html in Selenium, loads each test file and exports a screenshot named "screenshot-OUTPUTFILE.png"
-#Autodetect of program seems to work, but without a way to autodetect spectrum type graph won't load
+#Autodetect of program seems to work, using filename to autodetect spectrum
 def input_settings(uploadfile, my_spect='ir'): #my_qmprog="gamess",fwhh=50
     if "_opt" in uploadfile:
         my_spect = "ir"
@@ -37,7 +37,7 @@ for upload_file in upload_files:
     driver = webdriver.Firefox(options=options)
     driver.get("file://" + os.path.join(base_dir, "quick_qm_spectra.html"))
 
-    # input_settings(uploadfile=upload_file)
+    input_settings(uploadfile=upload_file)
 
     file_input_button = driver.find_element(By.ID, "output-button")
     file_input = driver.find_element(By.CSS_SELECTOR, "input[type='file']")
