@@ -22,6 +22,7 @@ options.set_preference("browser.download.dir", download_dir)
 options.set_preference("browser.helperApps.neverAsk.saveToDisk", "text/csv,application/csv,application/vnd.ms-excel")
 
 #This script loads quick_qm_spectra.html in Selenium, loads each test file and exports a screenshot named "screenshot-OUTPUTFILE.png"
+#It also downloads the generated .csv file to compare with the output of MO
 #Autodetect of program seems to work, using filename to autodetect spectrum
 def input_settings(uploadfile, my_spect='ir'): #my_qmprog="gamess",fwhh=50
     if "_opt" in uploadfile:
@@ -57,23 +58,17 @@ for upload_file in upload_files:
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
     # driver.implicitly_wait(10)
     print(upload_file)
-    
+    #Take screenshot
     print(driver.find_element(By.ID, "my_qmprog").get_attribute("value"))
     print(driver.find_element(By.ID, "hidden_status_div").get_attribute("innerHTML"))
     # print(driver.find_element(By.ID, "my_spect").get_attribute("value"))
     driver.save_full_page_screenshot("screenshot-" + os.path.basename(upload_file).replace(".out","") + ".png")
-
+    #Download spectrum.csv and rename to [upload_file].csv
     create_csv = driver.find_element(By.ID, "create")
     create_csv.click()
-
     download_csv = driver.find_element(By.ID, "downloadlink")#.get_attribute("href")
     print(download_csv)
-    #path, headers = urlretrieve(download_csv, os.path.basename(upload_file).replace(".out",".csv"))
-    #for name, value in headers.items():
-        #print(name, value)
-    
     download_csv.click()
-
     os.rename("spectrum.csv",os.path.basename(upload_file).replace(".out",".csv"))
     time.sleep(1)
     
