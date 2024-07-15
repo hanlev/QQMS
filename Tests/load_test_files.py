@@ -31,7 +31,7 @@ print(base_dir)
 tests_dir = os.path.join(base_dir, "Tests", "BzOrig")
 test_files = sorted(os.listdir(tests_dir))
 
-upload_files = [os.path.join(tests_dir, x) for x in test_files]
+upload_files = [os.path.join(tests_dir, x) for x in test_files if x.endswith(".out")]
 print(upload_files)
 for upload_file in upload_files:
     driver = webdriver.Firefox(options=options)
