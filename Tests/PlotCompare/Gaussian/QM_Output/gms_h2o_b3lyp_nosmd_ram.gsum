@@ -1,0 +1,98 @@
+********************************************************************************
+                          GAMESS/FIREFLY SUMMARY: Title                         
+********************************************************************************
+
+ EXECUTION OF GAMESS BEGUN WED APR 24 12:23:42 2024
+
+
+============================= ECHO OF INPUT CARDS =============================
+ $BASIS GBASIS=N31 NGAUSS=6 NPFUNC=1 DIFFSP=.T. $END                            
+ $CONTRL SCFTYP=RHF RUNTYP=RAMAN ICHARG=0 MULT=1 MAXIT=200 $END                 
+ $CONTRL DFTTYP=B3LYP $END                                                      
+ $FORCE METHOD=SEMINUM $END                                                     
+ $SCF DIRSCF=.T. DAMP=.T. $END                                                  
+ $SYSTEM MWORDS=100 $END                                                        
+ $DATA                                                                          
+ TITLE                                                                          
+ C1                                                                             
+ O           8.0  -0.1422831649  -0.1033009247  -0.0000000000                   
+ H           1.0  -0.8033894329   0.6002287619   0.0000000000                   
+ H           1.0  -0.6073714722  -0.9492950531   0.0000000000                   
+ $END                                                                           
+ $GRAD                                                                          
+ $END                                                                           
+ .....................END                                                                           
+ $HESS                                                                          
+ 1  1 4.17269701E-01-3.80731022E-02-1.96871400E-13-2.66336590E-01 2.13959417E-01
+ .....................END                                                                           
+                                                                                
+                                                                                
+
+
+================================================================================
+
+ JOB DESCRIPTION                              = Raman Spectrum
+ FORMULA                                      = H2O
+ SMILES                                       = O
+ MASS                                         = 18.0153
+ POINT GROUP                                  = C2v  
+ TOTAL NUMBER OF BASIS SET SHELLS             =   10
+ NUMBER OF CARTESIAN GAUSSIAN BASIS FUNCTIONS =   23
+ NUMBER OF ELECTRONS                          =   10
+ CHARGE OF MOLECULE                           =    0
+ SPIN MULTIPLICITY                            =    1
+ NUMBER OF OCCUPIED ORBITALS (ALPHA)          =    5
+ NUMBER OF OCCUPIED ORBITALS (BETA )          =    5
+ TOTAL NUMBER OF ATOMS                        =    3
+ THE NUCLEAR REPULSION ENERGY IS        9.1090164418
+
+
+
+          ENERGY COMPONENTS
+          -----------------
+
+         WAVEFUNCTION NORMALIZATION =       1.0000000000
+
+                ONE ELECTRON ENERGY =    -122.7459836658
+                TWO ELECTRON ENERGY =      37.2500773317
+           NUCLEAR REPULSION ENERGY =       9.1090164418
+                                      ------------------
+                       TOTAL ENERGY =     -76.3868898923
+
+ ELECTRON-ELECTRON POTENTIAL ENERGY =      37.2500773317
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =    -198.6236430427
+   NUCLEUS-NUCLEUS POTENTIAL ENERGY =       9.1090164418
+                                      ------------------
+             TOTAL POTENTIAL ENERGY =    -152.2645492693
+               TOTAL KINETIC ENERGY =      75.8776593770
+                 VIRIAL RATIO (V/T) =       2.0067112048
+                        HOMO ENERGY =    -0.31830        a.u.  (HOMO is    5)
+                        LUMO ENERGY =     0.02640        a.u.  (LUMO is    6)
+                       DIPOLEMOMENT =     2.401090       Debye
+
+
+CARTESIAN COORDINATES
+
+O         -0.14228       -0.10330        0.00000
+H         -0.80339        0.60023        0.00000
+H         -0.60737       -0.94929        0.00000
+
+
+IR/RAMAN Frequencies Activities and Intensities (Scaling factor: 1)(Laser Exit. Wavelength: 488nm, Raman Temp.: 293 K)
+-----------------------------------------------------------------------------------------------------------------
+    Frequency [1/cm]    Frequency(scaled) [1/cm]    Raman-Activity         Raman-Intensity        IR-Intensity
+-----------------------------------------------------------------------------------------------------------------
+        27.5300                                       0.0000                   0.0000                   0.0000
+         0.5500                                       0.0000                   0.0000                   0.0000
+         0.0200                                       0.0000                   0.0000                   0.0000
+         0.1200                                       0.0000                   0.0000                   0.0000
+         8.4200                                       0.0000                   0.0000                   0.0000
+        13.2900                                       0.0000                   0.0000                   0.0000
+      1508.6700                                       4.8070                 414.0132                   2.1011
+      3793.6500                                      83.7730                1716.8033                   0.1050
+      3946.8600                                      35.0370                 665.1755                   3.2480
+
+
+ CPU     0: STEP CPU TIME=     0.01 TOTAL CPU TIME=          6.5 (      0.1 MIN)
+ TOTAL WALL CLOCK TIME=         11.1 SECONDS, CPU UTILIZATION IS    57.90%
+ EXECUTION OF GAMESS TERMINATED NORMALLY WED APR 24 12:23:53 2024

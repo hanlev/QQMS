@@ -1,0 +1,91 @@
+********************************************************************************
+                      ORCA SUMMARY: orc_h2o_b3lyp_nosmd_ram                     
+********************************************************************************
+
+                         Program Version 5.0.1 -  RELEASE  -
+                         Date 2024-07-17 15:22:58
+
+================================================================================
+                                       INPUT FILE
+|  1> !B3LYP 6-31+G* opt numfreq 
+|  2> %pal nprocs 8 end
+|  3> %elprop Polar 1 end
+|  4> * xyz 0 1
+|  5>     O       2.2186344E-01  6.4623884E-02  0.0000000E+00                      
+|  6>     H      -1.0869454E+00  1.3371949E+00  0.0000000E+00                      
+|  7>     H      -6.8796211E-01 -1.8541860E+00  0.0000000E+00
+|  8> *
+|  9> 
+| 10> 
+| 11>                          ****END OF INPUT****
+================================================================================
+
+
+ Job Description                         ...   Raman Spectrum
+ Formula                                 ...   H2O
+ SMILES                                  ...   O
+ Mass                                    ...   18.0153
+ Total Charge                            ...   0
+ Multiplicity                            ...   1
+ Number of Electrons                     ...   10
+ Point Group                             ...   C2v  
+
+         ***        THE OPTIMIZATION HAS CONVERGED     ***  (16 cycles)         
+
+TOTAL SCF ENERGY
+----------------
+
+Total Energy       :          -76.38426938 Eh           -2078.52164 eV
+
+Components:
+Nuclear Repulsion  :            9.07862508 Eh             247.04195 eV
+Electronic Energy  :          -85.46289446 Eh           -2325.56359 eV
+One Electron Energy:         -122.70800069 Eh           -3339.05445 eV
+Two Electron Energy:           37.24510624 Eh            1013.49087 eV
+Max COSX asymmetry :            0.00000111 Eh               0.00003 eV
+
+Virial components:
+Potential Energy   :         -152.32842197 Eh           -4145.06709 eV
+Kinetic Energy     :           75.94415259 Eh            2066.54545 eV
+Virial Ratio       :            2.00579527
+
+
+DFT components:
+N(Alpha)           :        5.000038148981 electrons
+N(Beta)            :        5.000038148981 electrons
+N(Total)           :       10.000076297961 electrons
+E(X)               :       -7.093742553903 Eh       
+E(C)               :       -0.400502994275 Eh       
+E(XC)              :       -7.494245548178 Eh       
+DFET-embed. en.    :        0.000000000000 Eh       
+
+HOMO Energy        :           -0.31591    Eh           (HOMO is    4)
+LUMO Energy        :            0.02999    Eh           (LUMO is    5)
+Dipolemoment       :            2.25114    Debye
+
+
+CARTESIAN COORDINATES
+
+O         -0.13166       -0.08856        0.00000
+H         -0.83355        0.57987        0.00000
+H         -0.58784       -0.94368        0.00000
+
+IR/RAMAN Frequencies Activities and Intensities (Scaling factor: 1)(Laser Exit. Wavelength: 488nm, Raman Temp.: 293 K)
+----------------------------------------------------------------------------------------------------------------
+    Frequency [1/cm]    Frequency(scaled) [1/cm]    Raman-Activity         Raman-Intensity        IR-Intensity
+----------------------------------------------------------------------------------------------------------------
+        65.4500                                       3.1655               30624.0658              195709.0000
+        22.5000                                      79.2513             5909789.6285                1443.0000
+        45.5100                                      39.4819              756870.3997              113345.0000
+
+
+
+Sum of individual times         ...      146.930 sec (=   2.449 min)
+GTO integral calculation        ...       19.585 sec (=   0.326 min)  13.3 %
+SCF iterations                  ...       83.177 sec (=   1.386 min)  56.6 %
+Solution of CP-SCF eqns.        ...        2.090 sec (=   0.035 min)   1.4 %
+SCF Gradient evaluation         ...       18.948 sec (=   0.316 min)  12.9 %
+Geometry relaxation             ...        0.249 sec (=   0.004 min)   0.2 %
+Numerical frequency calculation ...       22.880 sec (=   0.381 min)  15.6 %
+                             ****ORCA TERMINATED NORMALLY****
+TOTAL RUN TIME: 0 days 0 hours 2 minutes 43 seconds 293 msec

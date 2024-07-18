@@ -1,0 +1,100 @@
+********************************************************************************
+                          GAMESS/FIREFLY SUMMARY: Title                         
+********************************************************************************
+
+ EXECUTION OF GAMESS BEGUN WED APR 24 12:10:13 2024
+
+
+============================= ECHO OF INPUT CARDS =============================
+ $BASIS GBASIS=N31 NGAUSS=6 NPFUNC=1 DIFFSP=.T. $END                            
+ $CONTRL SCFTYP=RHF RUNTYP=OPTIMIZE ICHARG=0 MULT=1 MAXIT=200 $END              
+ $CONTRL DFTTYP=B3LYP $END                                                      
+ $FORCE METHOD=SEMINUM $END                                                     
+ $SCF DIRSCF=.T. DAMP=.T. $END                                                  
+ $STATPT HSSEND=.T. NSTEP=200 $END                                              
+ $SYSTEM MWORDS=100 $END                                                        
+ $DATA                                                                          
+ Title                                                                          
+ C1                                                                             
+    O   8.0    2.2186344E-01  6.4623884E-02  0.0000000E+00                      
+    H   1.0   -1.0869454E+00  1.3371949E+00  0.0000000E+00                      
+    H   1.0   -6.8796211E-01 -1.8541860E+00  0.0000000E+00                      
+ $END                                                                           
+                                                                                
+                                                                                
+================================================================================
+
+ JOB DESCRIPTION                              = Geometry Optimization
+ FORMULA                                      = H2O
+ SMILES                                       = O
+ MASS                                         = 18.0153
+ POINT GROUP                                  = C2v  
+ TOTAL NUMBER OF BASIS SET SHELLS             =   10
+ NUMBER OF CARTESIAN GAUSSIAN BASIS FUNCTIONS =   23
+ NUMBER OF ELECTRONS                          =   10
+ CHARGE OF MOLECULE                           =    0
+ SPIN MULTIPLICITY                            =    1
+ NUMBER OF OCCUPIED ORBITALS (ALPHA)          =    5
+ NUMBER OF OCCUPIED ORBITALS (BETA )          =    5
+ TOTAL NUMBER OF ATOMS                        =    3
+ THE NUCLEAR REPULSION ENERGY IS        4.4771148018
+
+
+
+                      ***** EQUILIBRIUM GEOMETRY LOCATED *****                  
+          MAXIMUM GRADIENT = 0.0000118    RMS GRADIENT = 0.0000051  (19 CYCLES) 
+          ENERGY COMPONENTS
+          -----------------
+
+         WAVEFUNCTION NORMALIZATION =       1.0000000000
+
+                ONE ELECTRON ENERGY =    -122.7459838542
+                TWO ELECTRON ENERGY =      37.2500775219
+           NUCLEAR REPULSION ENERGY =       9.1090164415
+                                      ------------------
+                       TOTAL ENERGY =     -76.3868898909
+
+ ELECTRON-ELECTRON POTENTIAL ENERGY =      37.2500775219
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =    -198.6236434256
+   NUCLEUS-NUCLEUS POTENTIAL ENERGY =       9.1090164415
+                                      ------------------
+             TOTAL POTENTIAL ENERGY =    -152.2645494623
+               TOTAL KINETIC ENERGY =      75.8776595714
+                 VIRIAL RATIO (V/T) =       2.0067112022
+                        HOMO ENERGY =    -0.31830        a.u.  (HOMO is    5)
+                        LUMO ENERGY =     0.02640        a.u.  (LUMO is    6)
+                       DIPOLEMOMENT =     2.401090       Debye
+
+
+CARTESIAN COORDINATES
+
+O         -0.14228       -0.10330       -0.00000
+H         -0.80339        0.60023        0.00000
+H         -0.60737       -0.94930        0.00000
+
+  IR Frequencies and Intensities (Scaling factor: 1)
+---------------------------------------------------------------
+    Frequency [1/cm]    Frequency(scaled) [1/cm]    Intensity
+---------------------------------------------------------------
+        27.5300                                       3.1925
+         0.5500                                       0.0416
+         0.0100                                       0.0000
+         0.1200                                       0.0001
+         8.4200                                       9.7810
+        13.2900                                       0.1757
+      1508.6700                                       2.1009
+      3793.6500                                       0.1051
+      3946.8600                                       1.3284
+
+------------------Thermochemistry at 298.15 K------------------
+ZPE (hartree/mol)  0.021071
+   ZPE (kcal/mol) 13.222378
+    E  (kcal/mol)    15.003
+    H  (kcal/mol)    15.595
+    G  (kcal/mol)     1.743
+    S (cal/mol-K)    46.462
+
+
+ CPU     0: STEP CPU TIME=     0.00 TOTAL CPU TIME=          9.9 (      0.2 MIN)
+ TOTAL WALL CLOCK TIME=         13.6 SECONDS, CPU UTILIZATION IS    72.70%
+ EXECUTION OF GAMESS TERMINATED NORMALLY WED APR 24 12:10:26 2024

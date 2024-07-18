@@ -1,0 +1,102 @@
+********************************************************************************
+                          GAMESS/FIREFLY SUMMARY: Title                         
+********************************************************************************
+
+ EXECUTION OF GAMESS BEGUN WED APR 24 12:36:36 2024
+
+
+============================= ECHO OF INPUT CARDS =============================
+ $BASIS GBASIS=N31 NGAUSS=6 NPFUNC=1 DIFFSP=.T. $END                            
+ $CONTRL SCFTYP=RHF RUNTYP=ENERGY ICHARG=0 MULT=1 MAXIT=200 $END                
+ $CONTRL DFTTYP=B3LYP TDDFT=EXCITE $END                                         
+ $TDDFT NSTATE=10 $END                                                          
+ $FORCE METHOD=SEMINUM $END                                                     
+ $SCF DIRSCF=.T. DAMP=.T. $END                                                  
+ $SYSTEM MWORDS=100 $END                                                        
+ $DATA                                                                          
+ Title                                                                          
+ C1                                                                             
+ O           8.0  -0.1422831649  -0.1033009247  -0.0000000000                   
+ H           1.0  -0.8033894329   0.6002287619   0.0000000000                   
+ H           1.0  -0.6073714722  -0.9492950531   0.0000000000                   
+ $END                                                                           
+                                                                                
+                                                                                
+================================================================================
+
+ JOB DESCRIPTION                              = UV/VIS Spectrum
+ FORMULA                                      = H2O
+ SMILES                                       = O
+ MASS                                         = 18.0153
+ POINT GROUP                                  = C2v  
+ TOTAL NUMBER OF BASIS SET SHELLS             =   10
+ NUMBER OF CARTESIAN GAUSSIAN BASIS FUNCTIONS =   23
+ NUMBER OF ELECTRONS                          =   10
+ CHARGE OF MOLECULE                           =    0
+ SPIN MULTIPLICITY                            =    1
+ NUMBER OF OCCUPIED ORBITALS (ALPHA)          =    5
+ NUMBER OF OCCUPIED ORBITALS (BETA )          =    5
+ TOTAL NUMBER OF ATOMS                        =    3
+ THE NUCLEAR REPULSION ENERGY IS        9.1090164418
+
+
+
+          ENERGY COMPONENTS
+          -----------------
+
+         WAVEFUNCTION NORMALIZATION =       1.0000000000
+
+                ONE ELECTRON ENERGY =    -122.7459836658
+                TWO ELECTRON ENERGY =      37.2500773317
+           NUCLEAR REPULSION ENERGY =       9.1090164418
+                                      ------------------
+                       TOTAL ENERGY =     -76.3868898923
+
+ ELECTRON-ELECTRON POTENTIAL ENERGY =      37.2500773317
+  NUCLEUS-ELECTRON POTENTIAL ENERGY =    -198.6236430427
+   NUCLEUS-NUCLEUS POTENTIAL ENERGY =       9.1090164418
+                                      ------------------
+             TOTAL POTENTIAL ENERGY =    -152.2645492693
+               TOTAL KINETIC ENERGY =      75.8776593770
+                 VIRIAL RATIO (V/T) =       2.0067112048
+                        HOMO ENERGY =    -0.31830        a.u.  (HOMO is    5)
+                        LUMO ENERGY =     0.02640        a.u.  (LUMO is    6)
+                       DIPOLEMOMENT =     2.401090       Debye
+
+
+SUMMARY OF TDDFT RESULTS
+
+   STATE             ENERGY     EXCITATION  TRANSITION DIPOLE, A.U.  OSCILLATOR
+   0 ->             HARTREE          EV         X       Y       Z     STRENGTH
+   0  A          -76.3868898923    0.000
+   1  A          -76.0989744307    7.835     0.0000 -0.0000  0.6094    0.0713
+   2  A          -76.0326467977    9.639    -0.7157 -0.0905  0.0000    0.1229
+   3  A          -76.0181473141   10.034    -0.0000 -0.0000  0.0000    0.0000
+   4  A          -75.9596880480   11.625    -0.0000 -0.0000 -0.2389    0.0163
+   5  A          -75.9494593136   11.903     0.0342 -0.2699  0.0000    0.0216
+   6  A          -75.9467887415   11.976     0.0655  0.0083 -0.0000    0.0013
+   7  A          -75.9211896778   12.672    -0.0000 -0.0000  0.0001    0.0000
+   8  A          -75.9071900275   13.053     0.0000 -0.0000 -0.0990    0.0031
+   9  A          -75.8832475696   13.705    -0.0000 -0.0000  0.7224    0.1752
+  10  A          -75.8766748214   13.884     0.3374  0.0427  0.0000    0.0393
+  
+
+Major contributions of singly-exited configurations to each electronic transition:
+----------------------------------------------------------------------------------------------------------------
+State Wavelength [nm]    Osc. Strength      Major Contributions
+----------------------------------------------------------------------------------------------------------------
+    1    158.25             0.07100         5  - ->   6 ( 1.00)    5  - ->  11 ( 0.00)
+    2    128.62             0.12200         4  - ->   6 ( 0.97)    5  - ->   8 ( 0.02)    3  - ->   7 ( 0.00)
+    3    123.56             0.00000         5  - ->   7 ( 0.98)    5  - ->  10 ( 0.01)
+    4    106.66             0.01600         5  - ->   9 ( 0.99)    5  - ->  11 ( 0.01)    4  - ->   8 ( 0.00)
+    5    104.16             0.02100         4  - ->   7 ( 1.00)    3  - ->   6 ( 0.00)    3  - ->  11 ( 0.00)
+    6    103.53             0.00100         5  - ->   8 ( 0.85)    4  - ->   9 ( 0.11)    3  - ->   7 ( 0.02)
+    7     97.84             0.00000         5  - ->  10 ( 0.98)    5  - ->   7 ( 0.01)
+    8     94.98             0.00300         4  - ->   8 ( 0.97)    5  - ->  11 ( 0.03)
+    9     90.47             0.17500         5  - ->  11 ( 0.97)    4  - ->   8 ( 0.03)    5  - ->   9 ( 0.01)
+   10     89.30             0.03900         4  - ->   9 ( 0.82)    5  - ->   8 ( 0.07)    3  - ->   7 ( 0.07)
+
+
+ CPU     0: STEP CPU TIME=     0.66 TOTAL CPU TIME=          1.1 (      0.0 MIN)
+ TOTAL WALL CLOCK TIME=          1.3 SECONDS, CPU UTILIZATION IS    85.07%
+ EXECUTION OF GAMESS TERMINATED NORMALLY WED APR 24 12:36:38 2024
