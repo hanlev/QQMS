@@ -1,0 +1,442 @@
+
+    -----------------------------------------------------------------------
+          Psi4: An Open-Source Ab Initio Electronic Structure Package
+                               Psi4 1.9.1 release
+
+                         Git: Rev {} zzzzzzz 
+
+
+    D. G. A. Smith, L. A. Burns, A. C. Simmonett, R. M. Parrish,
+    M. C. Schieber, R. Galvelis, P. Kraus, H. Kruse, R. Di Remigio,
+    A. Alenaizan, A. M. James, S. Lehtola, J. P. Misiewicz, M. Scheurer,
+    R. A. Shaw, J. B. Schriber, Y. Xie, Z. L. Glick, D. A. Sirianni,
+    J. S. O'Brien, J. M. Waldrop, A. Kumar, E. G. Hohenstein,
+    B. P. Pritchard, B. R. Brooks, H. F. Schaefer III, A. Yu. Sokolov,
+    K. Patkowski, A. E. DePrince III, U. Bozkaya, R. A. King,
+    F. A. Evangelista, J. M. Turney, T. D. Crawford, C. D. Sherrill,
+    J. Chem. Phys. 152(18) 184108 (2020). https://doi.org/10.1063/5.0006002
+
+                            Additional Code Authors
+    E. T. Seidl, C. L. Janssen, E. F. Valeev, M. L. Leininger,
+    J. F. Gonthier, R. M. Richard, H. R. McAlexander, M. Saitow, X. Wang,
+    P. Verma, M. H. Lechner, A. Jiang, S. Behnle, A. G. Heide,
+    M. F. Herbst, and D. L. Poole
+
+             Previous Authors, Complete List of Code Contributors,
+                       and Citations for Specific Modules
+    https://github.com/psi4/psi4/blob/master/codemeta.json
+    https://github.com/psi4/psi4/graphs/contributors
+    http://psicode.org/psi4manual/master/introduction.html#citing-psifour
+
+    -----------------------------------------------------------------------
+
+
+    Psi4 started on: Monday, 13 May 2024 03:31PM
+
+    Process ID: 3756744
+    Host:       cn0481
+    PSIDATADIR: /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4
+    Memory:     500.0 MiB
+    Threads:    16
+    
+  ==> Input File <==
+
+--------------------------------------------------------------------------
+# Any line starting with the # character is a comment line
+#! B3LYP/6-31+G* H2O computation
+
+memory 600mb
+
+molecule h2o {
+   0 1
+    O            0.064569173474     0.011723477115     0.000000000000
+    H           -0.649997367307     0.665760950549     0.000000000000
+    H           -0.374762272263    -0.851821039852     0.000000000000
+}
+
+set {
+ basis 6-31+G*
+ tdscf_states 10
+}
+
+energy('td-scf')
+
+
+--------------------------------------------------------------------------
+
+  Memory set to 572.205 MiB by Python driver.
+
+Scratch directory: /scratch.global/lever046/psi4/
+   => Libint2 <=
+
+    Primary   basis highest AM E, G, H:  5, 4, 3
+    Auxiliary basis highest AM E, G, H:  6, 5, 4
+    Onebody   basis highest AM E, G, H:  6, 5, 4
+    Solid Harmonics ordering:            Gaussian
+
+*** tstart() called on cn0481
+*** at Mon May 13 15:31:38 2024
+
+   => Loading Basis Set <=
+
+    Name: 6-31+G*
+    Role: ORBITAL
+    Keyword: BASIS
+    atoms 1   entry O          line   157 file /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4/basis/6-31pgs.gbs 
+    atoms 2-3 entry H          line    46 file /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4/basis/6-31pgs.gbs 
+
+
+         ---------------------------------------------------------
+                                   SCF
+               by Justin Turney, Rob Parrish, Andy Simmonett
+                          and Daniel G. A. Smith
+                              RHF Reference
+                       16 Threads,    572 MiB Core
+         ---------------------------------------------------------
+
+  ==> Geometry <==
+
+    Molecular point group: cs
+    Full point group: Cs
+
+    Geometry (in Angstrom), charge = 0, multiplicity = 1:
+
+       Center              X                  Y                   Z               Mass       
+    ------------   -----------------  -----------------  -----------------  -----------------
+         O            0.064569173474     0.011723477115     0.000000000000    15.994914619570
+         H           -0.649997367307     0.665760950549     0.000000000000     1.007825032230
+         H           -0.374762272263    -0.851821039852     0.000000000000     1.007825032230
+
+  Running in cs symmetry.
+
+  Rotational constants: A =     27.38836  B =     14.06312  C =      9.29197 [cm^-1]
+  Rotational constants: A = 821082.42233  B = 421601.72643  C = 278566.17238 [MHz]
+  Nuclear repulsion =    9.082737263552943
+
+  Charge       = 0
+  Multiplicity = 1
+  Electrons    = 10
+  Nalpha       = 5
+  Nbeta        = 5
+
+  ==> Algorithm <==
+
+  SCF Algorithm Type is DF.
+  DIIS enabled.
+  MOM disabled.
+  Fractional occupation disabled.
+  Guess Type is SAD.
+  Energy threshold   = 1.00e-06
+  Density threshold  = 1.00e-06
+  Integral threshold = 1.00e-12
+
+  ==> Primary Basis <==
+
+  Basis Set: 6-31+G*
+    Blend: 6-31+G*
+    Number of shells: 12
+    Number of basis functions: 23
+    Number of Cartesian functions: 23
+    Spherical Harmonics?: false
+    Max angular momentum: 2
+
+   => Loading Basis Set <=
+
+    Name: (6-31+G* AUX)
+    Role: JKFIT
+    Keyword: DF_BASIS_SCF
+    atoms 1   entry O          line   310 file /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4/basis/heavy-aug-cc-pvdz-jkfit.gbs 
+    atoms 2-3 entry H          line   116 file /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4/basis/heavy-aug-cc-pvdz-jkfit.gbs 
+
+  ==> Integral Setup <==
+
+  DFHelper Memory: AOs need 0.001 GiB; user supplied 0.419 GiB. 
+  Using in-core AOs.
+
+  ==> MemDFJK: Density-Fitted J/K Matrices <==
+
+    J tasked:                   Yes
+    K tasked:                   Yes
+    wK tasked:                   No
+    OpenMP threads:              16
+    Memory [MiB]:               429
+    Algorithm:                 Core
+    Schwarz Cutoff:           1E-12
+    Mask sparsity (%):       0.0000
+    Fitting Condition:        1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (6-31+G* AUX)
+    Blend: HEAVY-AUG-CC-PVDZ-JKFIT
+    Number of shells: 46
+    Number of basis functions: 151
+    Number of Cartesian functions: 151
+    Spherical Harmonics?: false
+    Max angular momentum: 3
+
+  Minimum eigenvalue in the overlap matrix is 1.8162187941E-02.
+  Reciprocal condition number of the overlap matrix is 3.4112607462E-03.
+    Using symmetric orthogonalization.
+
+  ==> Pre-Iterations <==
+
+  SCF Guess: Superposition of Atomic Densities via on-the-fly atomic UHF (no occupation information).
+
+   -------------------------
+    Irrep   Nso     Nmo    
+   -------------------------
+     A'        18      18 
+     A"         5       5 
+   -------------------------
+    Total      23      23
+   -------------------------
+
+  ==> Iterations <==
+
+                           Total Energy        Delta E     RMS |[F,P]|
+
+   @DF-RHF iter SAD:   -75.50703295477570   -7.55070e+01   0.00000e+00 
+   @DF-RHF iter   1:   -75.94213773830171   -4.35105e-01   2.25392e-02 ADIIS/DIIS
+   @DF-RHF iter   2:   -75.99189068625410   -4.97529e-02   1.43886e-02 ADIIS/DIIS
+   @DF-RHF iter   3:   -76.01623609885937   -2.43454e-02   1.70213e-03 ADIIS/DIIS
+   @DF-RHF iter   4:   -76.01678223577656   -5.46137e-04   2.61180e-04 ADIIS/DIIS
+   @DF-RHF iter   5:   -76.01680186848979   -1.96327e-05   4.81268e-05 DIIS
+   @DF-RHF iter   6:   -76.01680298602150   -1.11753e-06   1.03680e-05 DIIS
+   @DF-RHF iter   7:   -76.01680304682749   -6.08060e-08   1.35240e-06 DIIS
+   @DF-RHF iter   8:   -76.01680304769773   -8.70244e-10   2.50245e-07 DIIS
+  Energy and wave function converged.
+
+
+  ==> Post-Iterations <==
+
+    Orbital Energies [Eh]
+    ---------------------
+
+    Doubly Occupied:                                                      
+
+       1Ap   -20.582766     2Ap    -1.350706     3Ap    -0.718070  
+       4Ap    -0.580891     1App   -0.508133  
+
+    Virtual:                                                              
+
+       5Ap     0.146073     6Ap     0.220563     7Ap     0.250639  
+       2App    0.252855     8Ap     0.349186     9Ap     0.381451  
+      10Ap     1.226589    11Ap     1.320617    12Ap     1.395487  
+       3App    1.404757    13Ap     1.418223    14Ap     1.479166  
+      15Ap     2.012821     4App    2.021357     5App    2.057324  
+      16Ap     2.609005    17Ap     2.997183    18Ap     4.096678  
+
+    Final Occupation by Irrep:
+             Ap   App 
+    DOCC [     4,    1 ]
+    NA   [     4,    1 ]
+    NB   [     4,    1 ]
+
+  @DF-RHF Final Energy:   -76.01680304769773
+
+   => Energetics <=
+
+    Nuclear Repulsion Energy =              9.0827372635529429
+    One-Electron Energy =                -122.7179526888494223
+    Two-Electron Energy =                  37.6184123775987516
+    Total Energy =                        -76.0168030476977208
+
+Computation Completed
+
+
+Properties will be evaluated at   0.000000,   0.000000,   0.000000 [a0]
+
+Properties computed using the SCF density matrix
+
+
+ Multipole Moments:
+
+ ------------------------------------------------------------------------------------
+     Multipole            Electronic (a.u.)      Nuclear  (a.u.)        Total (a.u.)
+ ------------------------------------------------------------------------------------
+
+ L = 1.  Multiply by 2.5417464519 to convert [e a0] to [Debye]
+ Dipole X            :          0.0603140           -0.9603706           -0.9000566
+ Dipole Y            :          0.0110039           -0.1743693           -0.1633654
+ Dipole Z            :          0.0000000            0.0000000            0.0000000
+ Magnitude           :                                                    0.9147624
+
+ ------------------------------------------------------------------------------------
+
+*** tstop() called on cn0481 at Mon May 13 15:31:42 2024
+Module time:
+	user time   =      14.28 seconds =       0.24 minutes
+	system time =       2.00 seconds =       0.03 minutes
+	total time  =          4 seconds =       0.07 minutes
+Total time:
+	user time   =      14.28 seconds =       0.24 minutes
+	system time =       2.00 seconds =       0.03 minutes
+	total time  =          4 seconds =       0.07 minutes
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********       The names of excited state variables changed between 1.5       **********
+**********     and 1.6. For a quick solution, remove the symmetry specifier     **********
+**********   from the variable name. For full details, see 'Notes on Psivars'   **********
+**********                        in the documentation.                         **********
+******************************************************************************************
+
+
+
+         ---------------------------------------------------------
+                         TDSCF excitation energies                
+                 by Andrew M. James and Daniel G. A. Smith        
+         ---------------------------------------------------------
+
+  ==> Options <==
+
+     Residual threshold  : 1.0000e-04
+     Initial guess       : denominators
+     Reference           : RHF
+     Solver type         : RPA (Hamiltonian)
+
+
+  ==> Requested Excitations <==
+
+      5 singlet states with Ap symmetry
+      5 singlet states with App symmetry
+
+
+  ==> Seeking the lowest 5 singlet states with Ap symmetry
+
+                        Generalized Hamiltonian Solver                       
+                              By Andrew M. James                             
+
+  ==> Options <==
+
+    Max number of iterations        = 60   
+    Eigenvector tolerance           = 1.0000e-04
+    Max number of expansion vectors = 1000 
+
+  => Iterations <=
+                              Max[D[value]]     Max[|R|]   # vectors
+  HamiltonianSolver iter   1:   5.77146e-01  2.52594e-01     20      
+  HamiltonianSolver iter   2:   1.35148e-02  2.25512e-02     30      
+  HamiltonianSolver iter   3:   6.00516e-05  1.86052e-03     40      
+  HamiltonianSolver iter   4:   1.24991e-07  1.37344e-04     50      
+  HamiltonianSolver iter   5:   5.32340e-10  6.17225e-05     52      Converged
+
+
+  ==> Seeking the lowest 5 singlet states with App symmetry
+
+                        Generalized Hamiltonian Solver                       
+                              By Andrew M. James                             
+
+  ==> Options <==
+
+    Max number of iterations        = 60   
+    Eigenvector tolerance           = 1.0000e-04
+    Max number of expansion vectors = 1000 
+
+  => Iterations <=
+                              Max[D[value]]     Max[|R|]   # vectors
+  HamiltonianSolver iter   1:   5.50144e-01  7.43618e-02     20      
+  HamiltonianSolver iter   2:   2.84149e-04  1.33015e-12     30      Converged
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********  Length-gauge rotatory strengths are **NOT** gauge-origin invariant  **********
+******************************************************************************************
+
+                                    Excitation Energy         Total Energy        Oscillator Strength             Rotatory Strength       
+     #   Sym: GS->ES (Trans)        au              eV              au          au (length)    au (velocity)    au (length)    au (velocity) 
+    ---- -------------------- --------------- --------------- --------------- --------------- --------------- --------------- ---------------
+     1     Ap->App (1 App)     0.33700         9.17011        -75.67981        0.0598          0.1016          0.0000         -0.0000        
+     2     Ap->App (1 App)     0.41214         11.21493       -75.60466        0.0000          0.0000          0.0000         -0.0000        
+     3      Ap->Ap (1 Ap)      0.42593         11.59017       -75.59087        0.1345          0.1435          0.0000         -0.0000        
+     4     Ap->App (1 App)     0.48257         13.13152       -75.53423        0.0285          0.0176          0.0000         -0.0000        
+     5      Ap->Ap (1 Ap)      0.49983         13.60101       -75.51698        0.0025          0.0039          0.0000         -0.0000        
+     6      Ap->Ap (1 Ap)      0.50274         13.68026       -75.51406        0.0498          0.0370          0.0000         -0.0000        
+     7     Ap->App (1 App)     0.52628         14.32071       -75.49053        0.0000          0.0000          0.0000         -0.0000        
+     8     Ap->App (1 App)     0.55008         14.96854       -75.46672        0.0014          0.0050          0.0000         -0.0000        
+     9      Ap->Ap (1 Ap)      0.55059         14.98244       -75.46621        0.1883          0.1818          0.0000         -0.0000        
+     10     Ap->Ap (1 Ap)      0.57103         15.53847       -75.44577        0.0474          0.0407          0.0000         -0.0000        
+
+
+
+Contributing excitations and de-excitations
+Only contributions with abs(coeff) > 1.00e-01 will be printed:
+
+Excited State    1 (1 App):   0.33700 au   135.20 nm f = 0.0598
+  Sums of squares: Xssq =  1.001746e+00; Yssq =  1.745672e-03; Xssq - Yssq =  1.000000e+00
+      1app  ->   5ap     0.954150 (91.040%)
+      1app  ->   9ap     0.281005 ( 7.896%)
+
+Excited State    2 (1 App):   0.41214 au   110.55 nm f = 0.0000
+  Sums of squares: Xssq =  1.002013e+00; Yssq =  2.012543e-03; Xssq - Yssq =  1.000000e+00
+      1app  ->   6ap    -0.801114 (64.178%)
+      1app  ->   8ap    -0.580951 (33.750%)
+      1app  ->  10ap    -0.100551 ( 1.011%)
+      1app  ->  12ap     0.111631 ( 1.246%)
+
+Excited State    3 (1 Ap):   0.42593 au   106.97 nm f = 0.1345
+  Sums of squares: Xssq =  1.000966e+00; Yssq =  9.661202e-04; Xssq - Yssq =  1.000000e+00
+      4ap  ->   5ap     0.933371 (87.118%)
+      4ap  ->   7ap     0.119494 ( 1.428%)
+      4ap  ->   9ap     0.211799 ( 4.486%)
+      1app  ->   2app     0.246689 ( 6.086%)
+
+Excited State    4 (1 App):   0.48257 au   94.42 nm f = 0.0285
+  Sums of squares: Xssq =  1.000845e+00; Yssq =  8.446414e-04; Xssq - Yssq =  1.000000e+00
+      1app  ->   7ap    -0.981805 (96.394%)
+      1app  ->   9ap     0.165881 ( 2.752%)
+
+Excited State    5 (1 Ap):   0.49983 au   91.16 nm f = 0.0025
+  Sums of squares: Xssq =  1.002329e+00; Yssq =  2.329473e-03; Xssq - Yssq =  1.000000e+00
+      3ap  ->   6ap    -0.129270 ( 1.671%)
+      3ap  ->   8ap    -0.118174 ( 1.397%)
+      4ap  ->   5ap    -0.206828 ( 4.278%)
+      4ap  ->   7ap    -0.292931 ( 8.581%)
+      1app  ->   2app     0.912922 (83.343%)
+
+Excited State    6 (1 Ap):   0.50274 au   90.63 nm f = 0.0498
+  Sums of squares: Xssq =  1.001816e+00; Yssq =  1.815830e-03; Xssq - Yssq =  1.000000e+00
+      4ap  ->   6ap    -0.890693 (79.333%)
+      4ap  ->   8ap    -0.436862 (19.085%)
+      4ap  ->  12ap     0.106320 ( 1.130%)
+
+Excited State    7 (1 App):   0.52628 au   86.58 nm f = 0.0000
+  Sums of squares: Xssq =  1.000229e+00; Yssq =  2.293288e-04; Xssq - Yssq =  1.000000e+00
+      1app  ->   6ap     0.591744 (35.016%)
+      1app  ->   8ap    -0.799101 (63.856%)
+      1app  ->  10ap    -0.105347 ( 1.110%)
+
+Excited State    8 (1 App):   0.55008 au   82.83 nm f = 0.0014
+  Sums of squares: Xssq =  1.001501e+00; Yssq =  1.500734e-03; Xssq - Yssq =  1.000000e+00
+      4ap  ->   2app    -0.982128 (96.457%)
+      1app  ->   9ap     0.155154 ( 2.407%)
+
+Excited State    9 (1 Ap):   0.55059 au   82.75 nm f = 0.1883
+  Sums of squares: Xssq =  1.000972e+00; Yssq =  9.718337e-04; Xssq - Yssq =  1.000000e+00
+      3ap  ->   5ap    -0.958497 (91.872%)
+      3ap  ->   9ap    -0.242501 ( 5.881%)
+      4ap  ->   8ap    -0.103602 ( 1.073%)
+
+Excited State   10 (1 Ap):   0.57103 au   79.79 nm f = 0.0474
+  Sums of squares: Xssq =  1.001791e+00; Yssq =  1.790769e-03; Xssq - Yssq =  1.000000e+00
+      3ap  ->   6ap    -0.275077 ( 7.567%)
+      3ap  ->   8ap    -0.200692 ( 4.028%)
+      4ap  ->   5ap    -0.141360 ( 1.998%)
+      4ap  ->   7ap     0.903646 (81.658%)
+      1app  ->   2app     0.196127 ( 3.847%)
+
+
+******************************************************************************************
+**********                               WARNING                                **********
+**********       The names of excited state variables changed between 1.5       **********
+**********     and 1.6. For a quick solution, remove the symmetry specifier     **********
+**********   from the variable name. For full details, see 'Notes on Psivars'   **********
+**********                        in the documentation.                         **********
+******************************************************************************************
+
+
+    Psi4 stopped on: Monday, 13 May 2024 03:31PM
+    Psi4 wall time for execution: 0:00:06.79
+
+*** Psi4 exiting successfully. Buy a developer a beer!

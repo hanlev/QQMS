@@ -1,0 +1,276 @@
+
+    -----------------------------------------------------------------------
+          Psi4: An Open-Source Ab Initio Electronic Structure Package
+                               Psi4 1.9.1 release
+
+                         Git: Rev {} zzzzzzz 
+
+
+    D. G. A. Smith, L. A. Burns, A. C. Simmonett, R. M. Parrish,
+    M. C. Schieber, R. Galvelis, P. Kraus, H. Kruse, R. Di Remigio,
+    A. Alenaizan, A. M. James, S. Lehtola, J. P. Misiewicz, M. Scheurer,
+    R. A. Shaw, J. B. Schriber, Y. Xie, Z. L. Glick, D. A. Sirianni,
+    J. S. O'Brien, J. M. Waldrop, A. Kumar, E. G. Hohenstein,
+    B. P. Pritchard, B. R. Brooks, H. F. Schaefer III, A. Yu. Sokolov,
+    K. Patkowski, A. E. DePrince III, U. Bozkaya, R. A. King,
+    F. A. Evangelista, J. M. Turney, T. D. Crawford, C. D. Sherrill,
+    J. Chem. Phys. 152(18) 184108 (2020). https://doi.org/10.1063/5.0006002
+
+                            Additional Code Authors
+    E. T. Seidl, C. L. Janssen, E. F. Valeev, M. L. Leininger,
+    J. F. Gonthier, R. M. Richard, H. R. McAlexander, M. Saitow, X. Wang,
+    P. Verma, M. H. Lechner, A. Jiang, S. Behnle, A. G. Heide,
+    M. F. Herbst, and D. L. Poole
+
+             Previous Authors, Complete List of Code Contributors,
+                       and Citations for Specific Modules
+    https://github.com/psi4/psi4/blob/master/codemeta.json
+    https://github.com/psi4/psi4/graphs/contributors
+    http://psicode.org/psi4manual/master/introduction.html#citing-psifour
+
+    -----------------------------------------------------------------------
+
+
+    Psi4 started on: Tuesday, 30 April 2024 05:40PM
+
+    Process ID: 2691793
+    Host:       cn0050
+    PSIDATADIR: /panfs/jay/groups/28/lever046/lever046/psi4conda/share/psi4
+    Memory:     500.0 MiB
+    Threads:    8
+    
+  ==> Input File <==
+
+--------------------------------------------------------------------------
+# Any line starting with the # character is a comment line
+#! Sample HF/6-31+G* H2O computation
+
+memory 600mb
+
+molecule h2o {
+   0 1
+ Nuclear repulsion =    9.283617380887991
+
+  ==> Basis Set <==
+
+  Basis Set: 6-31+G*
+    Blend: 6-31+G*
+    Number of shells: 12
+    Number of basis functions: 23
+    Number of Cartesian functions: 23
+    Spherical Harmonics?: false
+    Max angular momentum: 2
+
+  ==> DFJKGrad: Density-Fitted SCF Gradients <==
+
+    Gradient:                    2
+    J tasked:                  Yes
+    K tasked:                  Yes
+    wK tasked:                  No
+    OpenMP threads:              8
+    Integrals threads:           8
+    Memory [MiB]:              429
+    Schwarz Cutoff:          1E-12
+    Fitting Condition:       1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (6-31+G* AUX)
+    Blend: HEAVY-AUG-CC-PVDZ-JKFIT
+    Number of shells: 46
+    Number of basis functions: 151
+    Number of Cartesian functions: 151
+    Spherical Harmonics?: false
+    Max angular momentum: 3
+
+  DFHelper Memory: AOs need 0.001 GiB; user supplied 0.503 GiB. 
+  Using in-core AOs.
+
+  ==> MemDFJK: Density-Fitted J/K Matrices <==
+
+    J tasked:                   Yes
+    K tasked:                   Yes
+    wK tasked:                   No
+    OpenMP threads:               8
+    Memory [MiB]:               514
+    Algorithm:                 Core
+    Schwarz Cutoff:           1E-12
+    Mask sparsity (%):       0.0000
+    Fitting Condition:        1E-10
+
+   => Auxiliary Basis Set <=
+
+  Basis Set: (6-31+G* AUX)
+    Blend: HEAVY-AUG-CC-PVDZ-JKFIT
+    Number of shells: 46
+    Number of basis functions: 151
+    Number of Cartesian functions: 151
+    Spherical Harmonics?: false
+    Max angular momentum: 3
+
+
+   ==> Coupled-Perturbed RHF Solver <==
+
+    Maxiter             =         100
+    Convergence         =   1.000E-06
+    Number of equations =           9
+   -----------------------------------------------------
+     Iter   Residual RMS      Max RMS  Remain  Time [s]
+   -----------------------------------------------------
+        1      5.634e-01    7.909e-01       9         0
+        2      1.324e-01    1.636e-01       9         0
+        3      3.201e-02    4.537e-02       9         0
+        4      4.479e-03    6.467e-03       9         0
+        5      8.389e-04    1.099e-03       9         0
+        6      1.524e-04    2.106e-04       9         0
+        7      2.334e-05    4.058e-05       9         0
+        8      4.766e-06    8.910e-06       8         0
+        9      9.966e-07    1.897e-06       4         0
+       10      3.021e-07    1.826e-07       0         0
+  ## Total Hessian (Symmetry 0) ##
+  Irrep: 1 Size: 9 x 9
+
+                 1                   2                   3                   4                   5
+
+    1     0.53323623363848    -0.04336667938096     0.00000000000000    -0.35089768210727     0.23498937766217
+    2    -0.04336667938096     0.78857947301221    -0.00000000000000     0.30473827006044    -0.31001928305724
+    3     0.00000000000000    -0.00000000000000    -0.00000523655641    -0.00000000000000     0.00000000000000
+    4    -0.35089768210727     0.30473827006044    -0.00000000000000     0.33156949859618    -0.27810949378841
+    5     0.23498937766217    -0.31001928305724     0.00000000000000    -0.27810949378841     0.33925602647220
+    6    -0.00000000000000     0.00000000000000     0.00000422457453     0.00000000000000    -0.00000000000000
+    7    -0.18233855158462    -0.26137159056944    -0.00000000000000     0.01932818367694     0.04312011607423
+    8    -0.19162269831485    -0.47856018985198    -0.00000000000000    -0.02662877622621    -0.02923674346149
+    9    -0.00000000000000    -0.00000000000000     0.00000101198566    -0.00000000000000    -0.00000000000000
+
+                 6                   7                   8                   9
+
+    1    -0.00000000000000    -0.18233855158462    -0.19162269831485    -0.00000000000000
+    2     0.00000000000000    -0.26137159056944    -0.47856018985198    -0.00000000000000
+    3     0.00000422457453    -0.00000000000000    -0.00000000000000     0.00000101198566
+    4     0.00000000000000     0.01932818367694    -0.02662877622621    -0.00000000000000
+    5    -0.00000000000000     0.04312011607423    -0.02923674346149    -0.00000000000000
+    6    -0.00000530564559    -0.00000000000000    -0.00000000000000     0.00000108107072
+    7    -0.00000000000000     0.16301036794806     0.21825147453049     0.00000000000000
+    8    -0.00000000000000     0.21825147453049     0.50779693312142     0.00000000000000
+    9     0.00000108107072     0.00000000000000     0.00000000000000    -0.00000209305718
+
+
+
+
+*** tstop() called on cn0050 at Tue Apr 30 17:41:16 2024
+Module time:
+	user time   =       5.68 seconds =       0.09 minutes
+	system time =       0.43 seconds =       0.01 minutes
+	total time  =          1 seconds =       0.02 minutes
+Total time:
+	user time   =      65.43 seconds =       1.09 minutes
+	system time =       7.05 seconds =       0.12 minutes
+	total time  =         11 seconds =       0.18 minutes
+
+
+  ==> Harmonic Vibrational Analysis <==
+
+  non-mass-weighted Hessian:       Symmetric? True   Hermitian? True   Lin Dep Dim?  0 (0)
+  projection of translations (True) and rotations (True) removed 6 degrees of freedom (6)
+  total projector:                 Symmetric? True   Hermitian? True   Lin Dep Dim?  6 (6)
+  mass-weighted Hessian:           Symmetric? True   Hermitian? True   Lin Dep Dim?  0 (0)
+  pre-proj  low-frequency mode:    0.0000i [cm^-1]
+  pre-proj  low-frequency mode:    0.0000i [cm^-1]
+  pre-proj  low-frequency mode:    0.0000i [cm^-1]
+  pre-proj  low-frequency mode:    0.0000i [cm^-1]
+  pre-proj  low-frequency mode:    0.0020  [cm^-1]
+  pre-proj  low-frequency mode:    0.0153  [cm^-1]
+  pre-proj  all modes:['12.3312i' '10.4614i' '7.1122i' '0.0145i' '0.0020' '0.0153' '1796.7456'
+ '4071.1175' '4190.2747']
+  projected mass-weighted Hessian: Symmetric? True   Hermitian? True   Lin Dep Dim?  6 (6)
+  post-proj low-frequency mode:    0.0000i [cm^-1] (TR)
+  post-proj low-frequency mode:    0.0000i [cm^-1] (TR)
+  post-proj low-frequency mode:    0.0000i [cm^-1] (TR)
+  post-proj low-frequency mode:    0.0000i [cm^-1] (TR)
+  post-proj low-frequency mode:    0.0000i [cm^-1] (TR)
+  post-proj low-frequency mode:    0.0000  [cm^-1] (TR)
+  post-proj  all modes:['0.0000i' '0.0000i' '0.0000i' '0.0000i' '0.0000i' '0.0000' '1796.7456'
+ '4071.1175' '4190.2747']
+
+  Vibration                       7                   8                   9           
+  Freq [cm^-1]                1796.7456           4071.1175           4190.2747       
+  Irrep                           Ap                  Ap                  Ap          
+  Reduced mass [u]              1.0828              1.0451              1.0839        
+  Force const [mDyne/A]         2.0595             10.2054             11.2127        
+  Turning point v=0 [a0]        0.2488              0.1682              0.1628        
+  RMS dev v=0 [a0 u^1/2]        0.1830              0.1216              0.1199        
+  IR activ [km/mol]            119.3347            23.3960             87.2799        
+  Char temp [K]               2585.1169           5857.4316           6028.8723       
+  ----------------------------------------------------------------------------------
+      1   O               -0.07 -0.01 -0.00   -0.05 -0.01 -0.00    0.01 -0.07  0.00   
+      2   H                0.48  0.51  0.00    0.49 -0.51  0.00   -0.51  0.49 -0.00   
+      3   H                0.62 -0.33  0.00    0.30  0.64  0.00    0.32  0.63 -0.00   
+
+  ==> Thermochemistry Components <==
+
+  Entropy, S
+    Electronic S                             0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K] (multiplicity = 1)
+    Translational S                         34.608 [cal/(mol K)]      144.801 [J/(mol K)]       0.05515177 [mEh/K] (mol. weight = 18.0106 [u], P = 101325.00 [Pa])
+    Rotational S                            11.746 [cal/(mol K)]       49.144 [J/(mol K)]       0.01871791 [mEh/K] (symmetry no. = 1)
+    Vibrational S                            0.003 [cal/(mol K)]        0.014 [J/(mol K)]       0.00000526 [mEh/K]
+  Total S                                   46.357 [cal/(mol K)]      193.959 [J/(mol K)]       0.07387494 [mEh/K]
+  Correction S                               0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K]
+
+  Constant volume heat capacity, Cv
+    Electronic Cv                            0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K]
+    Translational Cv                         2.981 [cal/(mol K)]       12.472 [J/(mol K)]       0.00475022 [mEh/K]
+    Rotational Cv                            2.981 [cal/(mol K)]       12.472 [J/(mol K)]       0.00475022 [mEh/K]
+    Vibrational Cv                           0.026 [cal/(mol K)]        0.107 [J/(mol K)]       0.00004087 [mEh/K]
+  Total Cv                                   5.987 [cal/(mol K)]       25.051 [J/(mol K)]       0.00954130 [mEh/K]
+  Correction Cv                              0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K]
+
+  Constant pressure heat capacity, Cp
+    Electronic Cp                            0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K]
+    Translational Cp                         4.968 [cal/(mol K)]       20.786 [J/(mol K)]       0.00791703 [mEh/K]
+    Rotational Cp                            2.981 [cal/(mol K)]       12.472 [J/(mol K)]       0.00475022 [mEh/K]
+    Vibrational Cp                           0.026 [cal/(mol K)]        0.107 [J/(mol K)]       0.00004087 [mEh/K]
+  Total Cp                                   7.974 [cal/(mol K)]       33.365 [J/(mol K)]       0.01270811 [mEh/K]
+  Correction Cp                              0.000 [cal/(mol K)]        0.000 [J/(mol K)]       0.00000000 [mEh/K]
+
+  ==> Thermochemistry Energy Analysis <==
+
+  Raw electronic energy, E_e
+  Total E_e, Electronic energy at well bottom                                           -76.01772323 [Eh]
+
+  Zero-point vibrational energy, ZPVE = Sum_i omega_i / 2,  E_0 = E_e + ZPVE
+    Vibrational ZPVE                        14.379 [kcal/mol]       60.161 [kJ/mol]       0.02291412 [Eh]        5029.069 [cm^-1]
+  Correction ZPVE to E_e                    14.379 [kcal/mol]       60.161 [kJ/mol]       0.02291412 [Eh]        5029.069 [cm^-1]
+  Total E_0, Enthalpy at 0 [K]                                                          -75.99480910 [Eh]
+  *** Absolute enthalpy, not an enthalpy of formation ***
+
+  Thermal (internal) energy, E (includes ZPVE and finite-temperature corrections)
+    Electronic contrib to E beyond E_e       0.000 [kcal/mol]        0.000 [kJ/mol]       0.00000000 [Eh]
+    Translational contrib to E               0.889 [kcal/mol]        3.718 [kJ/mol]       0.00141628 [Eh]
+    Rotational contrib to E                  0.889 [kcal/mol]        3.718 [kJ/mol]       0.00141628 [Eh]
+    Vibrational contrib to E                14.380 [kcal/mol]       60.165 [kJ/mol]       0.02291553 [Eh]
+  Correction E                              16.157 [kcal/mol]       67.602 [kJ/mol]       0.02574808 [Eh]
+  Total E, Thermal (internal) energy at  298.15 [K]                                     -75.99197514 [Eh]
+
+  Enthalpy, H_trans = E_trans + k_B * T = E_trans + P * V
+    Electronic contrib to H beyond E_e       0.000 [kcal/mol]        0.000 [kJ/mol]       0.00000000 [Eh]
+    Translational contrib to H               1.481 [kcal/mol]        6.197 [kJ/mol]       0.00236046 [Eh]
+    Rotational contrib to H                  0.889 [kcal/mol]        3.718 [kJ/mol]       0.00141628 [Eh]
+    Vibrational contrib to H                14.380 [kcal/mol]       60.165 [kJ/mol]       0.02291553 [Eh]
+  Correction H                              16.750 [kcal/mol]       70.081 [kJ/mol]       0.02669227 [Eh]
+  Total H, Enthalpy at  298.15 [K]                                                      -75.99103096 [Eh]
+  *** Absolute enthalpy, not an enthalpy of formation ***
+
+  Gibbs free energy, G = H - T * S
+    Electronic contrib to G beyond E_e       0.000 [kcal/mol]        0.000 [kJ/mol]       0.00000000 [Eh]
+    Translational contrib to G              -8.837 [kcal/mol]      -36.975 [kJ/mol]      -0.01408304 [Eh]
+    Rotational contrib to G                 -2.613 [kcal/mol]      -10.934 [kJ/mol]      -0.00416447 [Eh]
+    Vibrational contrib to G                14.379 [kcal/mol]       60.161 [kJ/mol]       0.02291396 [Eh]
+  Correction G                               2.928 [kcal/mol]       12.252 [kJ/mol]       0.00466645 [Eh]
+  Total G, Gibbs energy at  298.15 [K]                                                  -76.01305677 [Eh]
+  *** Absolute Gibbs energy, not a free energy of formation ***
+
+
+    Psi4 stopped on: Tuesday, 30 April 2024 05:41PM
+    Psi4 wall time for execution: 0:00:12.92
+
+*** Psi4 exiting successfully. Buy a developer a beer!
