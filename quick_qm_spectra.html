@@ -304,14 +304,18 @@ function predict_file_type(outfile){
   return my_qmprog.value;
 }
 
+document.getElementById("output-button").addEventListener('click', function(){
+    var my_spect = document.getElementById("my_spect");
+    if (my_spect.value == "none"){
+      alert('Error : No spectrum type selected. Please select spectrum type.');
+      event.preventDefault();
+      return;
+    }
+})
+
 document.querySelector("#file-input").addEventListener('change', function() {
 	// list of selected files
 	var all_files = this.files;
-  if(document.getElementById("my_spect").value == "none"){
-    alert('Error : No spectrum type selected. Please select spectrum type after the browser refreshes.');
-    location.reload()
-    return;
-  }
 	if(all_files.length == 0) {
     alert('Error : No file selected');
     return;
