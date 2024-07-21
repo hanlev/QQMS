@@ -43,12 +43,11 @@ function raman_info_gamess(outfile) {
     // Throw error if Thermochemistry (Temperature) section not found
 	
     if (foundtemp == false) {
-        document.querySelector("#contents").innerHTML = "<b>Thermochemistry " +
+        var error_message = "<b>Thermochemistry " +
         "information was not found in this output file.</b><br><br>" +
         "Please check to make sure that the Hessian calculation" +
         "completed without errors or warnings.";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
     // collect the frequencies and intensities of
@@ -71,7 +70,7 @@ function raman_info_gamess(outfile) {
     // Throw error if Raman Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a Raman spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -79,8 +78,7 @@ function raman_info_gamess(outfile) {
         "<li>this is a Raman calculation " +
         "(the $CONTRL group in the input file should " +
         "contain \"RUNTYP=RAMAN\")</li>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
 		
@@ -161,12 +159,11 @@ function raman_info_orca(outfile) {
     // Throw error if Thermochemistry (Temperature) section not found
 	
     if (foundtemp == false) {
-        document.querySelector("#contents").innerHTML = "<b>Thermochemistry " +
+        var error_message = "<b>Thermochemistry " +
         "information was not found in this output file.</b><br><br>" +
         "Please check to make sure that the frequency calculation" +
         "completed without errors or warnings.";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
     // collect the frequencies and intensities of
@@ -189,7 +186,7 @@ function raman_info_orca(outfile) {
     // Throw error if Raman Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a Raman spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -198,8 +195,7 @@ function raman_info_orca(outfile) {
            "<ul><li>a keyword line in the input file contains \"freq\"</li>" +
 		   "<li>a polarizability calculation has been requested in the input" +
 		   " (for example, the input contains \"\%elprop Polar 1 end\") </li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
 		
@@ -276,12 +272,11 @@ function raman_info_nwchem(outfile) {
     // Throw error if Thermochemistry (Temperature) section not found
 	
     if (foundtemp == false) {
-        document.querySelector("#contents").innerHTML = "<b>Temperature " +
+        var error_message = "<b>Temperature " +
         "information was not found in this output file.</b><br><br>" +
         "Please check to make sure that the frequency calculation" +
         "completed without errors or warnings.";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
     // collect the frequencies and intensities of
@@ -304,7 +299,7 @@ function raman_info_nwchem(outfile) {
     // Throw error if Raman Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a Raman spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -313,8 +308,7 @@ function raman_info_nwchem(outfile) {
            "<ul><li>a task line in the input file contains \"raman\"</li>" +
 		   "<li>a polarizability calculation has been requested in the input" +
 		   " (for example, the input contains a \"property\" section.) </li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 		
 		
@@ -357,8 +351,7 @@ function raman_info_nwchem(outfile) {
 
 
 function raman_info_psi4(outfile) {
-    document.querySelector("#contents").innerHTML = "<b>Our apologies: " +
+    var error_message = "<b>Our apologies: " +
         "currently Raman spectra cannot be plotted for Psi4 calculations.";
-    document.querySelector("#contents").style.display = 'block';
-    document.querySelector("#file-input-label").style.display = 'block';
+    throw_error(error_message);
 }

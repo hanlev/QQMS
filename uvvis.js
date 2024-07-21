@@ -32,7 +32,7 @@ function uvvis_info_gamess(outfile) {
     // Throw error if TDDFT summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a UV/Vis spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -40,8 +40,7 @@ function uvvis_info_gamess(outfile) {
         "<li>this is a TDDFT calculation " +
         "(the $CONTRL group in the input file should " +
         "contain \"TDDFT=EXCITE\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the wavelengths and oscillator strengths of
@@ -97,15 +96,14 @@ function uvvis_info_orca(outfile) {
     // Throw error if UV/Vis summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a UV/Vis spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
         "<ul><li>the ORCA calculation terminated normally</li>" +
         "<li>this is a TDDFT calculation " +
         "(the input file should contain \"\%tddft nroots 10 end\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the wavelengths and oscillator strengths of
@@ -162,15 +160,14 @@ function uvvis_info_nwchem(outfile) {
     // Throw error if UV/Vis summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a UV/Vis spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
         "<ul><li>the NWChem calculation terminated normally</li>" +
         "<li>this is a TDDFT calculation " +
         "(the input file should contain a tddft section)</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the wavelengths and oscillator strengths of
@@ -224,15 +221,14 @@ function uvvis_info_psi4(outfile) {
     // Throw error if TDDFT summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce a UV/Vis spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
         "<ul><li>the PSI4 calculation terminated normally</li>" +
         "<li>this is a TDDFT calculation " +
         "(the input file should contain \"td-scf\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the wavelengths and oscillator strengths of

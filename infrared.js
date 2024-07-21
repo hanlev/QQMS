@@ -9,7 +9,7 @@ class IRObj {
 function ir_info_gamess(outfile) {
     var rows = outfile.split("\n");
     var i = 0;
-    var n = 0;
+    var n = -10;
     var foundline = false;
     var startline = 0;
     var endline = 0;
@@ -21,7 +21,7 @@ function ir_info_gamess(outfile) {
 
     while (i<rows.length && foundline == false) {
         n = rows[i].search("MODE FREQ");
-        if (n>0){
+        if (n>=0){
             foundline = true;
             startline = i + 1;
         } else {
@@ -30,9 +30,9 @@ function ir_info_gamess(outfile) {
     }   
 
     // Throw error if IR Spectrum summary section not found
-	
+
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce an IR spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -43,32 +43,34 @@ function ir_info_gamess(outfile) {
         "<li>a Hessian calculation was performed on the " +
         "final geometry (the $STATPT group in the input file " +
         "should contain \"HSSEND=.T.\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the frequencies and intensities of
     //   the peaks of the IR spctrum
 
-    i = startline;
-    foundend = false;
+    if (foundline == true) {
 
-    while (i<rows.length && foundend == false) {
-        n = rows[i].search("[0-9]");
-        if (n>0) {
-            var trow = rows[i].trim();
-            var fields = trow.split(/\s+/);
-            freq.push(Number(fields[1]));
-            intensity.push(Number(fields[4]));
-            i++;
-        } else {
-            foundend = true;
-            endline = i-1;
+        i = startline;
+        foundend = false;
+
+        while (i<rows.length && foundend == false) {
+            n = rows[i].search("[0-9]");
+            if (n>0) {
+                var trow = rows[i].trim();
+                var fields = trow.split(/\s+/);
+                freq.push(Number(fields[1]));
+                intensity.push(Number(fields[4]));
+                i++;
+            } else {
+                foundend = true;
+                endline = i-1;
+            }
         }
     }
 
     irinfo = new IRObj(freq,intensity);
-    return irinfo
+    return irinfo;
 
 }
 
@@ -99,7 +101,7 @@ function ir_info_orca(outfile) {
     // Throw error if IR Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce an IR spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -110,8 +112,7 @@ function ir_info_orca(outfile) {
         "<li>a frequency calculation was performed on the " +
         "final geometry (a keyword line in the input file " +
         "should contain \"freq\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the frequencies and intensities of
@@ -167,7 +168,7 @@ function ir_info_nwchem(outfile) {
     // Throw error if IR Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce an IR spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -178,8 +179,7 @@ function ir_info_nwchem(outfile) {
         "<li>a frequency calculation was performed on the " +
         "final geometry (task line in the input file " +
         "should contain \"freq\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the frequencies and intensities of
@@ -235,7 +235,7 @@ function ir_info_psi4(outfile) {
     // Throw error if IR Spectrum summary section not found
 	
     if (foundline == false) {
-        document.querySelector("#contents").innerHTML = "<b>The information " +
+        var error_message = "<b>The information " +
         "needed to produce an IR spectrum was not found in this " +
         "file</b><br><br>" +
         "Please check to make sure that" +
@@ -246,8 +246,7 @@ function ir_info_psi4(outfile) {
         "<li>a frequency calculation was performed on the " +
         "final geometry (line in the input file " +
         "should contain \"frequency(...)\")</li></ul>";
-        document.querySelector("#contents").style.display = 'block';
-        document.querySelector("#file-input-label").style.display = 'block';
+	throw_error(error_message);
     }
 
     // collect the frequencies and intensities of

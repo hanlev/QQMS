@@ -60,7 +60,7 @@ body {
         margin: 15px 0 0 0;
         display: none;
         text-align: left;
-        background-color: rgba(0,0,0,0.1);
+        background-color: rgba(0,0,0,0.1);  
         padding: 10px;
         font-size: 18px;
         max-height: 300px;
@@ -302,6 +302,15 @@ function predict_file_type(outfile){
     return progtypesJSON[predicted_progtyp[0]];
   }
   return my_qmprog.value;
+}
+
+function throw_error(error_msg) {
+    document.querySelector("#contents").innerHTML = error_msg;
+    document.querySelector("#contents").style.display = 'block';
+    document.getElementById("graph").style.display = 'none'
+    document.getElementById("cont-3dview").style.display = 'none'
+    document.getElementById("cont-3dtext").style.display = 'none'
+    document.getElementById("file-input-label").style.display = 'none'
 }
 
 document.querySelector("#file-input").addEventListener('change', function() {
