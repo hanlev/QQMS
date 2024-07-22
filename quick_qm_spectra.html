@@ -307,10 +307,10 @@ function predict_file_type(outfile){
 function throw_error(error_msg) {
     document.querySelector("#contents").innerHTML = error_msg;
     document.querySelector("#contents").style.display = 'block';
-    document.getElementById("graph").style.display = 'none'
-    document.getElementById("cont-3dview").style.display = 'none'
-    document.getElementById("cont-3dtext").style.display = 'none'
-    document.getElementById("file-input-label").style.display = 'none'
+    document.getElementById("graph").style.display = 'none';
+    document.getElementById("cont-3dview").style.display = 'none';
+    document.getElementById("cont-3dtext").style.display = 'none';
+    document.getElementById("file-input-label").style.display = 'none';
 }
 
 document.querySelector("#file-input").addEventListener('change', function() {
