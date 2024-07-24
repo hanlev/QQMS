@@ -200,12 +200,13 @@ body {
   </form>
 
   <h3>Set Desired Lineshape </h3>
-  <p>In the space below, please specify the desired lineshape,
+  <p>In the dropdown menu below, please specify the desired lineshape,
      either Lorentzian (default) or Gaussian.</p>
   <ul>
   	<li>Lorentzian lineshapes typically are best for spectra 
-	    of gas-phase and many liquid-phase samples.</li>
-  	<li>Gaussian lineshapes typically are best for spectra of solid-phase samples</li>
+	    of gas-phase samples.</li>
+  	<li>Gaussian lineshapes typically are best for spectra of solid-phase samples.</li>
+  	<li>Spectra from liquid-phase samples have both Lorentzian and Gaussian character.</li>
   </ul>
 
   <form>
@@ -217,13 +218,13 @@ body {
 </form>
 
   <h3>Set Desired Laser Excitation Wavelength (only applies to Raman spectra)</h3>
-  <p>In the space below, please specify the wavelength (in nm) of the
+  <p>In the space below, please specify the wavelength of the
      laser light used to excite the sample.</p>
 
   <p>The default value is 1064 nm.</p>
 
   <form name="my_laserwl" >
-  	excitation wavelength:<input type="text" id="laserwl" name="laserwl" value="1064"><br>
+  	excitation wavelength (nm):<input type="text" id="laserwl" name="laserwl" value="1064"><br>
   </form>
 
 </div>
