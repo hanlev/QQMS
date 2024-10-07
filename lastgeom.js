@@ -99,8 +99,7 @@ function last_geom_gamess(outfile) {
                        "If the molecular geometry was input in z-matrix or other format, the molecule " +
 	               "might not be displayed correctly.</p>";
     } else if (foundline == true) {
-        geom_message = "No equilibrium geometry was found in this output file. " +
-		       "Displaying the <b>last geometry</b> of the molecule" +
+        geom_message = "Displaying the <b>last geometry</b> of the molecule" +
 		       " that was found in the output file.";
     } else {
         geom_message = "<b>Cartesian coordinates for this molecule were not found in " +
@@ -227,8 +226,7 @@ function last_geom_orca(outfile) {
                        "If the molecular geometry was input in z-matrix or other format, the molecule " +
 	               "might not be displayed correctly.</p>";
     } else if (foundline == true) {
-        geom_message = "No equilibrium geometry was found in this output file. " +
-		       "Displaying the <b>last geometry</b> of the molecule" +
+        geom_message = "Displaying the <b>last geometry</b> of the molecule" +
 		       " that was found in the output file.";
     } else {
         geom_message = "<b>Cartesian coordinates for this molecule were not found in " +
@@ -534,8 +532,7 @@ function last_geom_psi4(outfile) {
                        "If the molecular geometry was input in z-matrix or other format, the molecule " +
 	               "might not be displayed correctly.</p>";
     } else if (foundline == true) {
-        geom_message = "No equilibrium geometry was found in this output file. " +
-		       "Displaying the <b>last geometry</b> of the molecule" +
+        geom_message = "Displaying the <b>last geometry</b> of the molecule" +
 		       " that was found in the output file.";
     } else {
         geom_message = "<b>Cartesian coordinates for this molecule were not found in " +
