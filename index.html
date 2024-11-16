@@ -13,6 +13,7 @@
     <script src="./uvvis.js"></script>
     <script src="./plotwrap.js"></script>
     <script src="./lastgeom.js"></script>
+    <script src="./vibmodes.js"></script>
     <!-- <script src="https://3Dmol.org/build/3Dmol-min.js"></script>      -->
     <!-- <script src="https://3Dmol.org/build/3Dmol.ui-min.js"></script>   -->
     <script src="./3Dmol-min.js"></script>
@@ -135,6 +136,19 @@ body {
   color: white;
 }
 
+#vib-dialog {
+  position: absolute;
+  z-index: 9;
+}
+
+#vib-dialogheader {
+  padding: 10px;
+  cursor: move;
+  z-index: 10;
+  background-color: #2196F3;
+  color: #fff;
+}
+
 </style>
 </head>
 
@@ -237,15 +251,27 @@ body {
  </div>
 
  <div id="getcsv" style="display: none">
+     <br>
      <button id="create">Create Spectrum CSV File</button> 
      <a download="spectrum.csv" id="downloadlink" style="display: none">Download Spectrum CSV File</a>
  </div>
+
+ <div id="view-vib" style="display: none"> 
+	 <br>
+	<button id="vib-button">View vibrational modes</button>
+</div>
 
 <div id="graph" class="graph-container"></div>
 
 <div id="cont-3dview" class="mol-container"></div>
 
 <div id="cont-3dtext" class="mol-container"></div>
+
+<dialog id="vib-dialog">
+	<div id="vib-dialogheader">Vibrational Frequencies (cm<sup>-1</sup>)</div>
+    <p>Placeholder text</p>
+    <button autofocus id="vib-close">Close</button>
+</dialog>
 
 <script type="text/javascript">
 var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
@@ -378,7 +404,8 @@ document.querySelector("#file-input").addEventListener('change', function() {
             }            
             console.log(progtyp, spectyp);
        switch(spectyp) {
-	      case "ir":
+          case "ir":
+             document.getElementById("view-vib").style.display='block';
           switch(progtyp) {
             case "gamess":
               iii = ir_info_gamess(outfile);
@@ -488,8 +515,10 @@ document.querySelector("#file-input").addEventListener('change', function() {
             viewer.setStyle({}, { stick: {}, sphere: {radius: 0.4} }); 
             viewer.zoomTo();
             viewer.render();
+	    
+		document.getElementById("view-vib").addEventListener('click', () => getvibs(outfile,molxyz,viewer));
 	});
-
+        
         // file reading failed
         reader.addEventListener('error', function() {
            alert('Error : Failed to read file');
