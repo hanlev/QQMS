@@ -269,7 +269,8 @@ body {
 
 <dialog id="vib-dialog">
 	<div id="vib-dialogheader">Vibrational Frequencies (cm<sup>-1</sup>)</div>
-    <p>Placeholder text</p>
+    <form id="vib-form">
+    </form>
     <button autofocus id="vib-close">Close</button>
 </dialog>
 
@@ -516,7 +517,7 @@ document.querySelector("#file-input").addEventListener('change', function() {
             viewer.zoomTo();
             viewer.render();
 	    
-		document.getElementById("view-vib").addEventListener('click', () => getvibs(outfile,molxyz,viewer));
+		document.getElementById("view-vib").addEventListener('click', () => getvibs(progtyp,outfile,iii,molxyz,viewer));
 	});
         
         // file reading failed
