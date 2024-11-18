@@ -23,7 +23,7 @@ function animatevib(prog,file,irinfo,xyz,molview) {
       newxyz = vibgamess(file,modechoice,xyz,nfreqs);
       break;
     case "nwchem":
-      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
+      newxyz = vibnwchem(file,modechoice,xyz,nfreqs);
       break;
     case "orca":
       newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
@@ -39,6 +39,11 @@ function animatevib(prog,file,irinfo,xyz,molview) {
   molview.render();
   molview.vibrate(10,1,true);
   molview.animate({loop: "backandforth"});
+  document.getElementById("cont-3dtext").innerHTML = "<br><br>Displaying " +
+    "<b>normal mode #" + modechoice + "</b> having frequency <b>" + 
+    irinfo.vibfreq[modechoice] + " cm<sup>-1</sup></b>.<br><br>" +
+    "<b><i>Note:</i></b> if the animation of the mode is choppy, please " +
+    "refresh your browser and reload the output file."
 }
 
 function makevibform(irobj) {
@@ -192,6 +197,76 @@ function vibgamess(ofile,nmode,oldxyz,nfreqs) {
       addval = 1;
     }
     displacements.push(Number(tfields[nfield+addval]));
+  }
+
+  var newxyz = xyzlines[0] + "\n\n";
+
+  n=0;
+
+  for (i=2; i<xyzlines.length; i++) {
+    nn = -10;
+    nn = xyzlines[i].search(/[0-9]/);
+    if (nn>0) {
+      newxyz = newxyz + xyzlines[i];
+      for (j=0; j<3; j++) {
+        newxyz = newxyz + " " + displacements[n];
+        n++;
+      }
+      newxyz = newxyz + "\n";
+    }
+  }
+  
+  console.log(newxyz);  // DEBUG
+  
+  return newxyz;
+}
+
+function vibnwchem(ofile,nmode,oldxyz,nfreqs) {
+  var rows = ofile.split("\n");
+  var i = 0;
+  var n = -10;
+  var nn = -10;
+  var foundline = false;
+  var startline = 0;
+  var endline = 0;
+  var xyzlines = oldxyz.split("\n");
+  var nfield;
+  var addval;
+  var displacements = [];
+
+  // Find the location in the output file of the selected
+  //   vibrational mode.
+
+  nmode++; // NWChem starts mode numbering at 1 rather than 0
+
+  while (i<rows.length && foundline==false) {
+    n = rows[i].search(/P.Frequency/);
+    if (n>=0) {
+      var trow = rows[i-2].trim();
+      var fields = trow.split(/\s+/);
+      var j = 0;
+      while (j<fields.length && foundline == false) {
+        nn = fields[j].search(nmode);
+        if (nn>=0) {
+          foundline = true;
+          startline = i+2;
+	  endline = startline + nfreqs;
+          nfield = j;
+        }
+        j++;
+      }
+    }
+    i++;
+  }
+
+  // Collect the displacements along each coordinate of 
+  //   the selected vibrational mode and add them to the
+  //   xyz file.
+
+  for (i=startline; i<endline; i++) {
+    var ttrow = rows[i].trim();
+    var tfields = ttrow.split(/\s+/);
+    displacements.push(Number(tfields[nfield+1]));
   }
 
   var newxyz = xyzlines[0] + "\n\n";
