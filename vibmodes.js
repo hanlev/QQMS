@@ -13,12 +13,14 @@ function getvibs(prog,file,irinfo,xyz,molview) {
 }
 
 function animatevib(prog,file,irinfo,xyz,molview) {
-  var choice = getRadioButtonValue("radio-group");
-  console.log(choice);    // DEBUG
+  var modechoice = getRadioButtonValue("radio-group");
+  var nfreqs = irinfo.vibfreq.length;
+  console.log(modechoice);    // DEBUG
+  console.log("nfreqs = " + nfreqs); // DEBUG
   var newxyz;
   switch(prog) {
     case "gamess":
-      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
+      newxyz = vibgamess(file,modechoice,xyz,nfreqs);
       break;
     case "nwchem":
       newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
@@ -41,7 +43,6 @@ function animatevib(prog,file,irinfo,xyz,molview) {
 
 function makevibform(irobj) {
   // Data for radio button options
-//const options = ["Option 1", "Option 2", "Option 3"];
   const options = irobj.vibfreq
 
   // Get the container where you want to add the radio buttons
@@ -60,7 +61,8 @@ function makevibform(irobj) {
     const radio = document.createElement("input");
     radio.type = "radio";
     radio.name = "radio-group";
-    radio.value = option;
+//  radio.value = option;
+    radio.value = modenum;
 
     // Create the label element
     const label = document.createElement("label");
@@ -135,3 +137,81 @@ function dragElement(elmnt) {
   }
 }
 
+
+function vibgamess(ofile,nmode,oldxyz,nfreqs) {
+  var rows = ofile.split("\n");
+  var i = 0;
+  var n = -10;
+  var nn = -10;
+  var foundline = false;
+  var startline = 0;
+  var endline = 0;
+  var xyzlines = oldxyz.split("\n");
+  var nfield;
+  var maxfield;
+  var addval;
+  var displacements = [];
+
+  // Find the location in the output file of the selected
+  //   vibrational mode.
+
+  while (i<rows.length && foundline==false) {
+    n = rows[i].search(/FREQUENCY:/);
+    if (n>=0) {
+      var smode = Number(nmode) + 1;
+      var nmodestring = smode;
+      var trow = rows[i-1].trim();
+      var fields = trow.split(/\s+/);
+      var j = 0;
+      while (j<fields.length && foundline == false) {
+        nn = fields[j].search(nmodestring);
+        if (nn>=0) {
+          foundline = true;
+          startline = i+5;
+	  endline = startline + nfreqs;
+          nfield = j;
+	  maxfield = fields.length + 3;
+        }
+        j++;
+      }
+    }
+    i++;
+  }
+
+  // Collect the displacements along each coordinate of 
+  //   the selected vibrational mode and add them to the
+  //   xyz file.
+
+  for (i=startline; i<endline; i++) {
+    var ttrow = rows[i].trim();
+    var tfields = ttrow.split(/\s+/);
+    if (tfields.length == maxfield) {
+      addval = 3;
+    }
+    else {
+      addval = 1;
+    }
+    displacements.push(Number(tfields[nfield+addval]));
+  }
+
+  var newxyz = xyzlines[0] + "\n\n";
+
+  n=0;
+
+  for (i=2; i<xyzlines.length; i++) {
+    nn = -10;
+    nn = xyzlines[i].search(/[0-9]/);
+    if (nn>0) {
+      newxyz = newxyz + xyzlines[i];
+      for (j=0; j<3; j++) {
+        newxyz = newxyz + " " + displacements[n];
+        n++;
+      }
+      newxyz = newxyz + "\n";
+    }
+  }
+  
+  console.log(newxyz);  // DEBUG
+  
+  return newxyz;
+}
