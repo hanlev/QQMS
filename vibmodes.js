@@ -15,7 +15,7 @@ function getvibs(prog,file,irinfo,xyz,molview) {
 function animatevib(prog,file,irinfo,xyz,molview) {
   var modechoice = getRadioButtonValue("radio-group");
   var nfreqs = irinfo.vibfreq.length;
-  console.log(modechoice);    // DEBUG
+  console.log("modechoice = " + modechoice);    // DEBUG
   console.log("nfreqs = " + nfreqs); // DEBUG
   var newxyz;
   switch(prog) {
@@ -26,22 +26,24 @@ function animatevib(prog,file,irinfo,xyz,molview) {
       newxyz = vibnwchem(file,modechoice,xyz,nfreqs);
       break;
     case "orca":
-      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
+      newxyz = viborca(file,modechoice,xyz,nfreqs);
       break;
     case "psi4":
-      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
+      newxyz = vibpsi4(file,modechoice,xyz,nfreqs);
+//      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
       break;
   }
   molview.clear();
+  molview.removeAllModels();
   molview.addModel(newxyz,"xyz");
   molview.setStyle({}, { stick: {}, sphere: {radius: 0.4} }); 
   molview.zoomTo();
   molview.render();
   molview.vibrate(10,1,true);
   molview.animate({loop: "backandforth"});
-  document.getElementById("cont-3dtext").innerHTML = "<br><br>Displaying " +
-    "<b>normal mode #" + modechoice + "</b> having frequency <b>" + 
-    irinfo.vibfreq[modechoice] + " cm<sup>-1</sup></b>.<br><br>" +
+  document.getElementById("cont-3dtext").innerHTML = "<br><br>Displaying the " +
+    "<b>normal mode </b>with frequency <b>" + 
+    irinfo.vibfreq[modechoice] + "&nbsp;cm<sup>-1</sup></b>.<br><br>" +
     "<b><i>Note:</i></b> if the animation of the mode is choppy, please " +
     "refresh your browser and reload the output file."
 }
@@ -267,6 +269,161 @@ function vibnwchem(ofile,nmode,oldxyz,nfreqs) {
     var ttrow = rows[i].trim();
     var tfields = ttrow.split(/\s+/);
     displacements.push(Number(tfields[nfield+1]));
+  }
+
+  var newxyz = xyzlines[0] + "\n\n";
+
+  n=0;
+
+  for (i=2; i<xyzlines.length; i++) {
+    nn = -10;
+    nn = xyzlines[i].search(/[0-9]/);
+    if (nn>0) {
+      newxyz = newxyz + xyzlines[i];
+      for (j=0; j<3; j++) {
+        newxyz = newxyz + " " + displacements[n];
+        n++;
+      }
+      newxyz = newxyz + "\n";
+    }
+  }
+  
+  console.log(newxyz);  // DEBUG
+  
+  return newxyz;
+}
+
+function viborca(ofile,nmode,oldxyz,nfreqs) {
+  var rows = ofile.split("\n");
+  var i = 0;
+  var n = -10;
+  var nn = -10;
+  var foundline = false;
+  var startline = 0;
+  var endline = 0;
+  var xyzlines = oldxyz.split("\n");
+  var nfield;
+  var displacements = [];
+
+  nfreqs = nfreqs + 6;// account for the fact that the first 6 normal modes
+  var numode = Number(nmode) + 6;  // were projected out
+
+  // Find the location in the output file of the selected
+  //   vibrational mode.
+
+  while (i<rows.length && foundline==false) {
+    n = rows[i].search(/NORMAL MODES/);
+    if (n>=0) {
+      foundline = true;
+      startline = i+7;
+    }
+    i++;
+  }
+
+  var foundmode = false;
+  i = startline;
+  while (i<rows.length && foundmode==false) {
+    var trow = rows[i].trim();
+    var fields = trow.split(/\s+/);
+    var j = 0;
+    while (j<fields.length && foundmode == false) {
+      nn = fields[j].search(numode);
+      if (nn>=0) {
+        foundmode = true;
+        startline = i+1;
+	endline = startline + nfreqs;
+	nfield = j;
+      }
+      j++;
+    }
+    i=i+nfreqs+1;
+  }
+
+  // Collect the displacements along each coordinate of 
+  //   the selected vibrational mode and add them to the
+  //   xyz file.
+
+  for (i=startline; i<endline; i++) {
+    var ttrow = rows[i].trim();
+    var tfields = ttrow.split(/\s+/);
+    displacements.push(Number(tfields[nfield+1]));
+    console.log(Number(tfields[nfield+1])); // DEBUG
+  }
+
+  var newxyz = xyzlines[0] + "\n\n";
+
+  n=0;
+
+  for (i=2; i<xyzlines.length; i++) {
+    nn = -10;
+    nn = xyzlines[i].search(/[0-9]/);
+    if (nn>0) {
+      newxyz = newxyz + xyzlines[i];
+      for (j=0; j<3; j++) {
+        newxyz = newxyz + " " + displacements[n];
+        n++;
+      }
+      newxyz = newxyz + "\n";
+    }
+  }
+  
+  console.log(newxyz);  // DEBUG
+  
+  return newxyz;
+}
+
+
+function vibpsi4(ofile,nmode,oldxyz,nfreqs) {
+  var rows = ofile.split("\n");
+  var i = 0;
+  var n = -10;
+  var nn = -10;
+  var foundline = false;
+  var startline = 0;
+  var endline = 0;
+  var xyzlines = oldxyz.split("\n");
+  var nfield;
+  var displacements = [];
+  
+  nfreqs = nfreqs + 6;// account for the fact that the first 6 normal modes
+  var numode = Number(nmode) + 7;  // were projected out
+  console.log("nfreqs = " + nfreqs + " numode = " + numode); // DEBUG
+
+  // Find the location in the output file of the selected
+  //   vibrational mode.
+
+  while (i<rows.length && foundline==false) {
+    n = rows[i].search(/IR activ/);
+    if (n>=0) {
+      var trow = rows[i-7].trim();
+      console.log(trow); // DEBUG
+      var fields = trow.split(/\s+/);
+      var j = 0;
+      while (j<fields.length && foundline == false) {
+        nn = fields[j].search(numode);
+        if (nn>=0) {
+          foundline = true;
+          startline = i+3;
+	  endline = startline + nfreqs/3;
+          nfield = j;
+	  console.log("found line: startline,endline,nfield" + startline + endline + nfreqs); // DEBUG
+        }
+        j++;
+      }
+    }
+    i++;
+  }
+
+  // Collect the displacements along each coordinate of 
+  //   the selected vibrational mode and add them to the
+  //   xyz file.
+
+  for (i=startline; i<endline; i++) {
+    var ttrow = rows[i].trim();
+    var tfields = ttrow.split(/\s+/);
+    for (j=0; j<3; j++) {
+      displacements.push(Number(tfields[j+(nfield-1)*3+2]));
+    }
   }
 
   var newxyz = xyzlines[0] + "\n\n";
