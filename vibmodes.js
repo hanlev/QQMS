@@ -30,7 +30,6 @@ function animatevib(prog,file,irinfo,xyz,molview) {
       break;
     case "psi4":
       newxyz = vibpsi4(file,modechoice,xyz,nfreqs);
-//      newxyz = "3\n\n O -0.1422831649 -0.1033009247 -0.0000000000 -0.5 0.5 0.5\n H -0.8033894329 0.6002287619 0.0000000000 0.0 0.0 0.0\n H -0.6073714722 -0.9492950531 0.0000000000 0.0 0.0 0.0"
       break;
   }
   molview.clear();
@@ -39,6 +38,7 @@ function animatevib(prog,file,irinfo,xyz,molview) {
   molview.setStyle({}, { stick: {}, sphere: {radius: 0.4} }); 
   molview.zoomTo();
   molview.render();
+//  molview.setFrame(10); // DEBUG
   molview.vibrate(10,1,true);
   molview.animate({loop: "backandforth"});
   document.getElementById("cont-3dtext").innerHTML = "<br><br>Displaying the " +
