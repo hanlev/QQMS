@@ -66,12 +66,11 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 	console.log("exptmin = ",exptmin);
 
 	// Throw error if one of the above values is not a number
-	// (This part of the code does not work: hence commented out)
 
-//	if (isNaN(exptmax) || isNaN(exptmin)) {
-//          console.log("exptmax or exptmin is not a number");
-//          alert('Error : the maximum or minimum value specified for scaling is not a number. Please refresh browser and try again.');
-//      }
+  	if (isNaN(exptmax) || isNaN(exptmin)) {
+            console.log("exptmax or exptmin is not a number");
+            alert('Error : the maximum or minimum value specified for scaling is not a number. Please refresh browser and try again.');
+        }
 	
 	// Scale the amplitudes to match the specified min and max values:
 
