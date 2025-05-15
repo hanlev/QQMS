@@ -1,4 +1,4 @@
-function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp) {
+function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp,scalemax,scalemin,spectyp) {
 
     // Key to input variables:
 	// plocs = array containing peak locations (e.g. vibrational frequencies)
@@ -13,6 +13,9 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 	//           give peaks negative values, as for an IR spectrum, to match expt.
 	// lintyp = "lorent" (Lorentzian) or "gauss" (Gaussian) to indicate 
 	//          the lineshape function for the spectrum
+	// scalemax = the maximum value of the comparison spectrum
+	// scalemin = the minimum value of the comparison spectrum
+	// spectyp = spectrum type (IR, UV/Vis, or Raman)
 	
     var w = xmin;
     var j;
@@ -43,6 +46,30 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
             lambda.push(w);
             amp.push(ph);
             w++;
+        }
+    }
+
+    // Scale the y-axis to the comparison spectrum if desired
+
+    if (scalemax != "" || scalemin != "") {
+        var theormax = getmax(amp);
+        var theormin = getmin(amp);
+        var exptmax = theormax;
+        var exptmin = theormin;
+        if (scalemax != "") {
+	    exptmax = parseFloat(scalemax);
+	} 
+        if (scalemin != "") {
+	    exptmin = parseFloat(scalemin);
+	}
+	console.log("exptmax = ",exptmax);
+	console.log("exptmin = ",exptmin);
+        for (j = 0; j < amp.length; j++) {
+	    if (spectyp == "ir") {
+                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmax;
+            } else {
+                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmin;
+	    }
         }
     }
 
@@ -117,3 +144,28 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 
 }
 
+
+function getmax(fparray) {
+// Get the maximum value of a floating point array
+    var i = 0;
+    var maxval = -9999999.0;
+    for (i = 0; i < fparray.length; i++) {
+        if(fparray[i] > maxval) {
+	    maxval = fparray[i];
+	}
+    }
+    return maxval; 
+}
+
+
+function getmin(fparray) {
+// Get the maximum value of a floating point array
+    var i = 0;
+    var minval = 9999999.0;
+    for (i = 0; i < fparray.length; i++) {
+        if(fparray[i] < minval) {
+	    minval = fparray[i];
+	}
+    }
+    return minval; 
+}

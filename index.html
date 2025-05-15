@@ -217,6 +217,17 @@ body {
    </select>
 </form>
 
+  <h3>Set Values for Scaling to Comparison Spectrum</h3>
+  <p>If you have an experimental (or another theoretical) spectrum to which
+     the spectrum in this output file should be compared, please specify
+     the maximum and minimum y-axis values of the comparison spectrum here
+     (y-axis values are usually Intensity, % Transmittance, or Absorbance):</p>
+
+  <form name="my_scale" >
+  	minimum y-axis value:<input type="text" id="scalemin" name="scalemin" value=""><br>
+  	maximum y-axis value:<input type="text" id="scalemax" name="scalemax" value=""><br>
+  </form>
+
   <h3>Set Desired Laser Excitation Wavelength (only applies to Raman spectra)</h3>
   <p>In the space below, please specify the wavelength of the
      laser light used to excite the sample.</p>
@@ -226,6 +237,7 @@ body {
   <form name="my_laserwl" >
   	excitation wavelength (nm):<input type="text" id="laserwl" name="laserwl" value="1064"><br>
   </form>
+
 
 </div>
 <br>
@@ -365,6 +377,8 @@ document.querySelector("#file-input").addEventListener('change', function() {
 	reader.addEventListener('load', function(e) {
             var outfile = e.target.result;
             predict_file_type(outfile);
+            var scalemax = document.getElementById("scalemax").value;
+            var scalemin = document.getElementById("scalemin").value;
             var spectyp = document.getElementById("my_spect").value;
             var progtyp = document.getElementById("my_qmprog").value;
             if (spectyp == 'none'){
@@ -479,7 +493,7 @@ document.querySelector("#file-input").addEventListener('change', function() {
                 lintyp = "lorent";
             }
             
-	    plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp);
+	    plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp,scalemax,scalemin,spectyp);
             
 	    let element = document.querySelector('#cont-3dview');
             let config = { backgroundColor: '0xd7d7d7' };
