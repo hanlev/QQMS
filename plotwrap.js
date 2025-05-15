@@ -64,14 +64,27 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 	}
 	console.log("exptmax = ",exptmax);
 	console.log("exptmin = ",exptmin);
-        for (j = 0; j < amp.length; j++) {
-	    if (spectyp == "ir") {
+
+	// Throw error if one of the above values is not a number
+	// (This part of the code does not work: hence commented out)
+
+//	if (isNaN(exptmax) || isNaN(exptmin)) {
+//          console.log("exptmax or exptmin is not a number");
+//          alert('Error : the maximum or minimum value specified for scaling is not a number. Please refresh browser and try again.');
+//      }
+	
+	// Scale the amplitudes to match the specified min and max values:
+
+	if (spectyp == "ir") {    
+            for (j = 0; j < amp.length; j++) {
                 amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmax;
-            } else {
-                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmin;
 	    }
-        }
-    }
+        } else {
+            for (j = 0; j < amp.length; j++) {
+                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmin;
+            }
+        }   
+    }   
 
     // Set up the plotly graphing information and create the graph
 
