@@ -1,4 +1,4 @@
-function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp) {
+function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplot,lintyp,scalemax,scalemin,spectyp) {
 
     // Key to input variables:
 	// plocs = array containing peak locations (e.g. vibrational frequencies)
@@ -13,6 +13,9 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 	//           give peaks negative values, as for an IR spectrum, to match expt.
 	// lintyp = "lorent" (Lorentzian) or "gauss" (Gaussian) to indicate 
 	//          the lineshape function for the spectrum
+	// scalemax = the maximum value of the comparison spectrum
+	// scalemin = the minimum value of the comparison spectrum
+	// spectyp = spectrum type (IR, UV/Vis, or Raman)
 	
     var w = xmin;
     var j;
@@ -45,6 +48,42 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
             w++;
         }
     }
+
+    // Scale the y-axis to the comparison spectrum if desired
+
+    if (scalemax != "" || scalemin != "") {
+        var theormax = getmax(amp);
+        var theormin = getmin(amp);
+        var exptmax = theormax;
+        var exptmin = theormin;
+        if (scalemax != "") {
+	    exptmax = parseFloat(scalemax);
+	} 
+        if (scalemin != "") {
+	    exptmin = parseFloat(scalemin);
+	}
+	console.log("exptmax = ",exptmax);
+	console.log("exptmin = ",exptmin);
+
+	// Throw error if one of the above values is not a number
+
+  	if (isNaN(exptmax) || isNaN(exptmin)) {
+            console.log("exptmax or exptmin is not a number");
+            alert('Error : the maximum or minimum value specified for scaling is not a number. Please refresh browser and try again.');
+        }
+	
+	// Scale the amplitudes to match the specified min and max values:
+
+	if (spectyp == "ir") {    
+            for (j = 0; j < amp.length; j++) {
+                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmax;
+	    }
+        } else {
+            for (j = 0; j < amp.length; j++) {
+                amp[j] = amp[j]*(exptmax-exptmin)/(theormax-theormin)+exptmin;
+            }
+        }   
+    }   
 
     // Set up the plotly graphing information and create the graph
 
@@ -117,3 +156,28 @@ function plotspectrum(plocs,pamps,xmin,xmax,xlab,ylab,gtitle,fwhh,revplot,invplo
 
 }
 
+
+function getmax(fparray) {
+// Get the maximum value of a floating point array
+    var i = 0;
+    var maxval = -9999999.0;
+    for (i = 0; i < fparray.length; i++) {
+        if(fparray[i] > maxval) {
+	    maxval = fparray[i];
+	}
+    }
+    return maxval; 
+}
+
+
+function getmin(fparray) {
+// Get the maximum value of a floating point array
+    var i = 0;
+    var minval = 9999999.0;
+    for (i = 0; i < fparray.length; i++) {
+        if(fparray[i] < minval) {
+	    minval = fparray[i];
+	}
+    }
+    return minval; 
+}
