@@ -29,6 +29,7 @@ function animatevib(prog,file,irinfo,xyz,molview,modechoice) {
       newxyz = vibpsi4(file,modechoice,xyz,nfreqs);
       break;
   }
+  molview.stopAnimate();
   molview.clear();
   molview.removeAllModels();
   molview.addModel(newxyz,"xyz");
