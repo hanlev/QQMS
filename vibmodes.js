@@ -3,10 +3,6 @@ function getvibs(prog,file,irinfo,xyz,molview) {
   vibtable.style.display='block';
   makevibrows(irinfo,vibtable);
   getvibfreq(prog,file,irinfo,xyz,molview); 
-// NOTE TO SELF: if there are imaginary frequencies, this could cause
-// problems, definitely for GAMESS, possibly for other programs. 
-// Actually, since using mode # rather than freq value, may be ok.
-//  vibform.addEventListener("submit", (e) => animatevib(prog,file,irinfo,xyz,molview))
   return;
 }
 
@@ -43,7 +39,9 @@ function animatevib(prog,file,irinfo,xyz,molview,modechoice) {
     "<b>normal mode </b>with frequency <b>" + 
     irinfo.vibfreq[modechoice] + "&nbsp;cm<sup>-1</sup></b>.<br><br>" +
     "<b><i>Note:</i></b> if the animation of the mode is choppy, please " +
-    "refresh your browser and reload the output file."
+    "refresh your browser and reload the output file.<br><br>" +
+    "<button type='button' id='stopAnimateButton'>Stop Animation</button>";
+  document.getElementById('stopAnimateButton').addEventListener('click',() => molview.stopAnimate());
 }
 
 function makevibrows(irobj,vibtab) {
