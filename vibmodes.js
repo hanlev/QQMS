@@ -1,19 +1,16 @@
 function getvibs(prog,file,irinfo,xyz,molview) {
-  const vibdial = document.getElementById("vib-dialog");
-  const vibclose = document.getElementById("vib-close");
-  const vibform = document.getElementById("vib-form");
-  vibdial.show();
-  dragElement(vibdial);
-  vibclose.addEventListener("click", () => {
-    vibdial.close();
-  });
-  makevibform(irinfo);
-  vibform.addEventListener("submit", (e) => animatevib(prog,file,irinfo,xyz,molview))
+  const vibtable = document.getElementById("vibTable");
+  vibtable.style.display='block';
+  makevibrows(irinfo,vibtable);
+  getvibfreq(prog,file,irinfo,xyz,molview); 
+// NOTE TO SELF: if there are imaginary frequencies, this could cause
+// problems, definitely for GAMESS, possibly for other programs. 
+// Actually, since using mode # rather than freq value, may be ok.
+//  vibform.addEventListener("submit", (e) => animatevib(prog,file,irinfo,xyz,molview))
   return;
 }
 
-function animatevib(prog,file,irinfo,xyz,molview) {
-  var modechoice = getRadioButtonValue("radio-group");
+function animatevib(prog,file,irinfo,xyz,molview,modechoice) {
   var nfreqs = irinfo.vibfreq.length;
   console.log("modechoice = " + modechoice);    // DEBUG
   console.log("nfreqs = " + nfreqs); // DEBUG
@@ -48,102 +45,67 @@ function animatevib(prog,file,irinfo,xyz,molview) {
     "refresh your browser and reload the output file."
 }
 
-function makevibform(irobj) {
-  // Data for radio button options
-  const options = irobj.vibfreq
+function makevibrows(irobj,vibtab) {
+  const freqs = irobj.vibfreq;
+  const intens = irobj.irint;
 
-  // Get the container where you want to add the radio buttons
-  const form = document.getElementById("vib-form");
-  form.method = "dialog";
-  form.innerHTML = "";
-//form.innerHTML = "<br>Select the frequency of the vibrational " + 
-//   "mode you want to animate. Then click " +
-//   "\"Animate\" followed by \"Close\".<br><br>";
+  var modenum = 1;
 
-  var modenum = 0;
+  for (let i=0; i < freqs.length; i++) {
 
-  // Create radio buttons dynamically
-  options.forEach(option => {
-    // Create the radio button element
-    const radio = document.createElement("input");
-    radio.type = "radio";
-    radio.name = "radio-group";
-//  radio.value = option;
-    radio.value = modenum;
-
-    // Create the label element
-    const label = document.createElement("label");
-    label.textContent = option;
-
-    // Append the radio button and label to the container
-    form.appendChild(radio);
-    form.appendChild(label);
-    form.appendChild(document.createElement("br")); // Add a line break
+    // Create new table row
+//    const newRow = vibtab.insertRow(-1);
+    const newRow = vibtab.getElementsByTagName('tbody')[0].insertRow(-1);
+    const cell1 = document.createElement('td');
+    const cell2 = document.createElement('td');
+    const cell3 = document.createElement('td');
+    cell1.textContent = modenum;
+    cell2.textContent = freqs[i];
+    cell3.textContent = intens[i];
+    newRow.appendChild(cell1);
+    newRow.appendChild(cell2);
+    newRow.appendChild(cell3);
 
     modenum = modenum + 1;
-  });
-  const choice = getRadioButtonValue("radio-group");
-  const submit = document.createElement("input");
-  submit.type = "submit";
-  submit.value = "Animate";
-  form.appendChild(submit);
-}
-
-function getRadioButtonValue(radioGroupName) {
-  const radioButtons = document.querySelectorAll(`input[name="${radioGroupName}"]`);
-
-  for (const radioButton of radioButtons) {
-    if (radioButton.checked) {
-      return radioButton.value;
-    }
-  }
-  return null;
-}
-
-
-// Make the DIV element draggable:
-
-function dragElement(elmnt) {
-  var pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
-  if (document.getElementById(elmnt.id + "header")) {
-    // if present, the header is where you move the DIV from:
-    document.getElementById(elmnt.id + "header").onmousedown = dragMouseDown;
-  } else {
-    // otherwise, move the DIV from anywhere inside the DIV:
-    elmnt.onmousedown = dragMouseDown;
-  }
-
-  function dragMouseDown(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // get the mouse cursor position at startup:
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    document.onmouseup = closeDragElement;
-    // call a function whenever the cursor moves:
-    document.onmousemove = elementDrag;
-  }
-
-  function elementDrag(e) {
-    e = e || window.event;
-    e.preventDefault();
-    // calculate the new cursor position:
-    pos1 = pos3 - e.clientX;
-    pos2 = pos4 - e.clientY;
-    pos3 = e.clientX;
-    pos4 = e.clientY;
-    // set the element's new position:
-    elmnt.style.top = (elmnt.offsetTop - pos2) + "px";
-//  elmnt.style.left = (elmnt.offsetLeft - pos1) + "px";
-  }
-
-  function closeDragElement() {
-    // stop moving when mouse button is released:
-    document.onmouseup = null;
-    document.onmousemove = null;
   }
 }
 
+function getvibfreq(prog,file,irinfo,xyz,molview) {
+  const rows = document.getElementById('vibTable').getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+  let previouslyHighlighted = null;
+  let prevGrayHighlight = null;
+  let modechoice = -1;
+
+  for (let i = 0; i < rows.length; i++) {
+    rows[i].addEventListener('click', function() {
+      if (previouslyHighlighted) {
+        previouslyHighlighted.classList.remove('highlighted_y');
+      }
+      if (prevGrayHighlight) {
+        prevGrayHighlight.classList.remove('highlighted_g');
+      }
+      this.classList.add('highlighted_y');
+      previouslyHighlighted = this;
+      // Handle click event, e.g., get cell data
+      modechoice = i;
+      animatevib(prog,file,irinfo,xyz,molview,modechoice); 
+      const cells = this.getElementsByTagName('td');
+      const rowData = [];
+      for (let j = 0; j < cells.length; j++) {
+        rowData.push(cells[j].textContent);
+      }
+      console.log('Clicked Row Data:', rowData);
+    });
+    rows[i].addEventListener('mouseover', function() {
+      this.classList.add('highlighted_g');
+      prevGrayHighlight = this;
+    });
+    rows[i].addEventListener('mouseleave', function() {
+      this.classList.remove('highlighted_g');
+    });
+  }
+  return modechoice;
+}
 
 function vibgamess(ofile,nmode,oldxyz,nfreqs) {
   var rows = ofile.split("\n");

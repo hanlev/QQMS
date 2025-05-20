@@ -148,6 +148,25 @@ body {
   background-color: #2196F3;
   color: #fff;
 }
+  
+.highlighted_y {
+  background-color: yellow;
+}
+.highlighted_g {
+  background-color: gray;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
 
 </style>
 </head>
@@ -279,12 +298,15 @@ body {
 
 <div id="cont-3dtext" class="mol-container"></div>
 
-<dialog id="vib-dialog">
-	<div id="vib-dialogheader">Vibrational Frequencies (cm<sup>-1</sup>)</div>
-    <form id="vib-form">
-    </form>
-    <button autofocus id="vib-close">Close</button>
-</dialog>
+<table id="vibTable" style="display:none">
+  <thead>
+    <th>Mode #</th>
+    <th>Frequency (cm<sup>-1</sup>)</th>
+    <th>Intensity (unscaled, arbitrary units)</th>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
 
 <script type="text/javascript">
 var progtypesJSON = {"GAMESS": "gamess", "NWChem": "nwchem", "ORCA": "orca", "Psi4": "psi4"};
