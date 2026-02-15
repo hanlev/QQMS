@@ -5,6 +5,17 @@ class UVVObj {
     }
 }
 
+function get_orca_version(outfile) {
+    var rows = outfile.split("\n");
+    var substr = 'Program Version';
+    var subArr = rows.filter(str => str.includes(substr));
+    var trow = subArr[0].trim();
+    var rowArr = trow.split(" ");
+    var verArr = rowArr[2].split(".");
+    var verNo = verArr[0];
+    return(verNo);
+}
+
 
 function uvvis_info_gamess(outfile) {
 
@@ -16,7 +27,7 @@ function uvvis_info_gamess(outfile) {
     var endline = 0;
     var wl = [];
     var osc_str = [];
-	
+
     // find the beginning of the UV/Vis spectrum information 
     //   in the GAMESS output file
 
@@ -80,6 +91,21 @@ function uvvis_info_orca(outfile) {
     var endline = 0;
     var wl = [];
     var osc_str = [];
+
+    // Get ORCA Version Number because the format of the UV/Vis Output table
+    //  changed in going from ORCA 5 to 6.
+
+    var verNo = get_orca_version(outfile);
+    console.log("orca version number is ",verNo);    // DEBUG
+    var sf01
+    if (verNo < 6) {
+        sfwl = 2;
+        sfos = 3;
+    }
+    else {
+        sfwl = 5;
+	sfos = 6;
+    }
 	
     // find the beginning of the UV/Vis spectrum information 
     //   in the ORCA output file
@@ -118,9 +144,9 @@ function uvvis_info_orca(outfile) {
         if (n>=0) {
             var trow = rows[i].trim();
             var fields = trow.split(/\s+/);
-            wl.push(fields[2]);
-            osc_str.push(Number(fields[3]));
-            console.log(fields[2],fields[3]); // DEBUG
+            wl.push(fields[sfwl]);
+            osc_str.push(Number(fields[sfos]));
+            console.log(fields[sfwl],fields[sfos]); // DEBUG
             i++;
         } else {
             foundend = true;
